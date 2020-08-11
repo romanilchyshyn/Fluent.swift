@@ -14,6 +14,7 @@
 		A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEB924E2C96C00B68A1F /* Unicode.swift */; };
 		A6CCAEBC24E2C9E400B68A1F /* UnicodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */; };
 		A6E205B224E2CF17000743CB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6763F0424E2744E00798213 /* Info.plist */; };
+		A6E205B524E2D0FF000743CB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E205B424E2D0FF000743CB /* Errors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		A6763F0C24E278ED00798213 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
 		A6CCAEB924E2C96C00B68A1F /* Unicode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unicode.swift; sourceTree = "<group>"; };
 		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
+		A6E205B424E2D0FF000743CB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				A6763EF724E2744E00798213 /* FluentSyntax.h */,
 				A6763EF824E2744E00798213 /* Info.plist */,
 				A6763F0C24E278ED00798213 /* AST.swift */,
+				A6E205B324E2D0D5000743CB /* Parser */,
 				A6CCAEB924E2C96C00B68A1F /* Unicode.swift */,
 			);
 			path = FluentSyntax;
@@ -113,6 +116,14 @@
 				A6763F0424E2744E00798213 /* Info.plist */,
 			);
 			path = FluentSyntaxTests;
+			sourceTree = "<group>";
+		};
+		A6E205B324E2D0D5000743CB /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				A6E205B424E2D0FF000743CB /* Errors.swift */,
+			);
+			path = Parser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6763F0D24E278ED00798213 /* AST.swift in Sources */,
+				A6E205B524E2D0FF000743CB /* Errors.swift in Sources */,
 				A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
