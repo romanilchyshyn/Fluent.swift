@@ -8,12 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		A6763EEA24E273DA00798213 /* Fluent_swift.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EE824E273DA00798213 /* Fluent_swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6763EFE24E2744E00798213 /* Fluent_syntax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6763EF524E2744E00798213 /* Fluent_syntax.framework */; };
+		A6763F0324E2744E00798213 /* Fluent_syntaxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */; };
+		A6763F0524E2744E00798213 /* Fluent_syntax.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EF724E2744E00798213 /* Fluent_syntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A6763EFF24E2744E00798213 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A6763EDC24E273DA00798213 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A6763EF424E2744E00798213;
+			remoteInfo = "Fluent-syntax";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A6763EE524E273DA00798213 /* Fluent_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fluent_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6763EE824E273DA00798213 /* Fluent_swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fluent_swift.h; sourceTree = "<group>"; };
 		A6763EE924E273DA00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A6763EF524E2744E00798213 /* Fluent_syntax.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fluent_syntax.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6763EF724E2744E00798213 /* Fluent_syntax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fluent_syntax.h; sourceTree = "<group>"; };
+		A6763EF824E2744E00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A6763EFD24E2744E00798213 /* Fluent-syntaxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fluent-syntaxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fluent_syntaxTests.swift; sourceTree = "<group>"; };
+		A6763F0424E2744E00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +43,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A6763EF224E2744E00798213 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6763EFA24E2744E00798213 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6763EFE24E2744E00798213 /* Fluent_syntax.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -31,6 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				A6763EE724E273DA00798213 /* Fluent.swift */,
+				A6763EF624E2744E00798213 /* Fluent-syntax */,
+				A6763F0124E2744E00798213 /* Fluent-syntaxTests */,
 				A6763EE624E273DA00798213 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				A6763EE524E273DA00798213 /* Fluent_swift.framework */,
+				A6763EF524E2744E00798213 /* Fluent_syntax.framework */,
+				A6763EFD24E2744E00798213 /* Fluent-syntaxTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -52,6 +90,24 @@
 			path = Fluent.swift;
 			sourceTree = "<group>";
 		};
+		A6763EF624E2744E00798213 /* Fluent-syntax */ = {
+			isa = PBXGroup;
+			children = (
+				A6763EF724E2744E00798213 /* Fluent_syntax.h */,
+				A6763EF824E2744E00798213 /* Info.plist */,
+			);
+			path = "Fluent-syntax";
+			sourceTree = "<group>";
+		};
+		A6763F0124E2744E00798213 /* Fluent-syntaxTests */ = {
+			isa = PBXGroup;
+			children = (
+				A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */,
+				A6763F0424E2744E00798213 /* Info.plist */,
+			);
+			path = "Fluent-syntaxTests";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -60,6 +116,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6763EEA24E273DA00798213 /* Fluent_swift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6763EF024E2744E00798213 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6763F0524E2744E00798213 /* Fluent_syntax.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,16 +148,59 @@
 			productReference = A6763EE524E273DA00798213 /* Fluent_swift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		A6763EF424E2744E00798213 /* Fluent-syntax */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6763F0624E2744E00798213 /* Build configuration list for PBXNativeTarget "Fluent-syntax" */;
+			buildPhases = (
+				A6763EF024E2744E00798213 /* Headers */,
+				A6763EF124E2744E00798213 /* Sources */,
+				A6763EF224E2744E00798213 /* Frameworks */,
+				A6763EF324E2744E00798213 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Fluent-syntax";
+			productName = "Fluent-syntax";
+			productReference = A6763EF524E2744E00798213 /* Fluent_syntax.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A6763EFC24E2744E00798213 /* Fluent-syntaxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6763F0924E2744E00798213 /* Build configuration list for PBXNativeTarget "Fluent-syntaxTests" */;
+			buildPhases = (
+				A6763EF924E2744E00798213 /* Sources */,
+				A6763EFA24E2744E00798213 /* Frameworks */,
+				A6763EFB24E2744E00798213 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A6763F0024E2744E00798213 /* PBXTargetDependency */,
+			);
+			name = "Fluent-syntaxTests";
+			productName = "Fluent-syntaxTests";
+			productReference = A6763EFD24E2744E00798213 /* Fluent-syntaxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		A6763EDC24E273DA00798213 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = " Roman Ilchyshyn";
 				TargetAttributes = {
 					A6763EE424E273DA00798213 = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					A6763EF424E2744E00798213 = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					A6763EFC24E2744E00798213 = {
 						CreatedOnToolsVersion = 11.6;
 					};
 				};
@@ -112,12 +219,28 @@
 			projectRoot = "";
 			targets = (
 				A6763EE424E273DA00798213 /* Fluent.swift */,
+				A6763EF424E2744E00798213 /* Fluent-syntax */,
+				A6763EFC24E2744E00798213 /* Fluent-syntaxTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A6763EE324E273DA00798213 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6763EF324E2744E00798213 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6763EFB24E2744E00798213 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -134,7 +257,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A6763EF124E2744E00798213 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6763EF924E2744E00798213 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6763F0324E2744E00798213 /* Fluent_syntaxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A6763F0024E2744E00798213 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A6763EF424E2744E00798213 /* Fluent-syntax */;
+			targetProxy = A6763EFF24E2744E00798213 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A6763EEB24E273DA00798213 /* Debug */ = {
@@ -303,6 +449,86 @@
 			};
 			name = Release;
 		};
+		A6763F0724E2744E00798213 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Fluent-syntax/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romanilchyshyn.Fluent-syntax";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A6763F0824E2744E00798213 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Fluent-syntax/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romanilchyshyn.Fluent-syntax";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A6763F0A24E2744E00798213 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Fluent-syntaxTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romanilchyshyn.Fluent-syntaxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A6763F0B24E2744E00798213 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Fluent-syntaxTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romanilchyshyn.Fluent-syntaxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -320,6 +546,24 @@
 			buildConfigurations = (
 				A6763EEE24E273DA00798213 /* Debug */,
 				A6763EEF24E273DA00798213 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6763F0624E2744E00798213 /* Build configuration list for PBXNativeTarget "Fluent-syntax" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6763F0724E2744E00798213 /* Debug */,
+				A6763F0824E2744E00798213 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6763F0924E2744E00798213 /* Build configuration list for PBXNativeTarget "Fluent-syntaxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6763F0A24E2744E00798213 /* Debug */,
+				A6763F0B24E2744E00798213 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
