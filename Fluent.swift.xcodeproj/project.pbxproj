@@ -11,6 +11,7 @@
 		A6763EFE24E2744E00798213 /* Fluent_syntax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6763EF524E2744E00798213 /* Fluent_syntax.framework */; };
 		A6763F0324E2744E00798213 /* Fluent_syntaxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */; };
 		A6763F0524E2744E00798213 /* Fluent_syntax.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EF724E2744E00798213 /* Fluent_syntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6763F0D24E278ED00798213 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6763F0C24E278ED00798213 /* AST.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		A6763EFD24E2744E00798213 /* Fluent-syntaxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fluent-syntaxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fluent_syntaxTests.swift; sourceTree = "<group>"; };
 		A6763F0424E2744E00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A6763F0C24E278ED00798213 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			children = (
 				A6763EF724E2744E00798213 /* Fluent_syntax.h */,
 				A6763EF824E2744E00798213 /* Info.plist */,
+				A6763F0C24E278ED00798213 /* AST.swift */,
 			);
 			path = "Fluent-syntax";
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 					};
 					A6763EF424E2744E00798213 = {
 						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1160;
 					};
 					A6763EFC24E2744E00798213 = {
 						CreatedOnToolsVersion = 11.6;
@@ -261,6 +265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6763F0D24E278ED00798213 /* AST.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +457,7 @@
 		A6763F0724E2744E00798213 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -467,6 +473,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.romanilchyshyn.Fluent-syntax";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -475,6 +482,7 @@
 		A6763F0824E2744E00798213 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -498,6 +506,7 @@
 		A6763F0A24E2744E00798213 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Fluent-syntaxTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,6 +524,7 @@
 		A6763F0B24E2744E00798213 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Fluent-syntaxTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
