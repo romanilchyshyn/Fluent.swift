@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Fluent_syntax
+import FluentSyntax
 
 class UnicodeTests: XCTestCase {
 
