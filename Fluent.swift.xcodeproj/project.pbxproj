@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		A6763EEA24E273DA00798213 /* Fluent_swift.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EE824E273DA00798213 /* Fluent_swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6763EFE24E2744E00798213 /* Fluent_syntax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6763EF524E2744E00798213 /* Fluent_syntax.framework */; };
-		A6763F0324E2744E00798213 /* Fluent_syntaxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */; };
 		A6763F0524E2744E00798213 /* Fluent_syntax.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EF724E2744E00798213 /* Fluent_syntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6763F0D24E278ED00798213 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6763F0C24E278ED00798213 /* AST.swift */; };
+		A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEB924E2C96C00B68A1F /* Unicode.swift */; };
+		A6CCAEBC24E2C9E400B68A1F /* UnicodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,9 +33,10 @@
 		A6763EF724E2744E00798213 /* Fluent_syntax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fluent_syntax.h; sourceTree = "<group>"; };
 		A6763EF824E2744E00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6763EFD24E2744E00798213 /* Fluent-syntaxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fluent-syntaxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fluent_syntaxTests.swift; sourceTree = "<group>"; };
 		A6763F0424E2744E00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6763F0C24E278ED00798213 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		A6CCAEB924E2C96C00B68A1F /* Unicode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unicode.swift; sourceTree = "<group>"; };
+		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				A6763EF724E2744E00798213 /* Fluent_syntax.h */,
 				A6763EF824E2744E00798213 /* Info.plist */,
 				A6763F0C24E278ED00798213 /* AST.swift */,
+				A6CCAEB924E2C96C00B68A1F /* Unicode.swift */,
 			);
 			path = "Fluent-syntax";
 			sourceTree = "<group>";
@@ -105,7 +108,7 @@
 		A6763F0124E2744E00798213 /* Fluent-syntaxTests */ = {
 			isa = PBXGroup;
 			children = (
-				A6763F0224E2744E00798213 /* Fluent_syntaxTests.swift */,
+				A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */,
 				A6763F0424E2744E00798213 /* Info.plist */,
 			);
 			path = "Fluent-syntaxTests";
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6763F0D24E278ED00798213 /* AST.swift in Sources */,
+				A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6763F0324E2744E00798213 /* Fluent_syntaxTests.swift in Sources */,
+				A6CCAEBC24E2C9E400B68A1F /* UnicodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,7 +511,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Fluent-syntaxTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,6 +523,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.romanilchyshyn.Fluent-syntaxTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -525,7 +534,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Fluent-syntaxTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -534,6 +546,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.romanilchyshyn.Fluent-syntaxTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
