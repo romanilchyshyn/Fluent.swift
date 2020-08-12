@@ -15,8 +15,14 @@ public struct ParserError: Equatable, Error {
     }
     
     public let pos: Position
-    public let slice: Position?
+    // TODO: Unused property?
+//    public let slice: Position?
     public let kind: ErrorKind
+    
+    init(kind: ErrorKind, start: UInt, end: UInt? = nil) {
+        self.kind = kind
+        self.pos = Position(start: start, end: end ?? start + 1)
+    }
 }
 
 extension ParserError: CustomStringConvertible {
