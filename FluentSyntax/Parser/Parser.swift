@@ -69,5 +69,67 @@ public func parse(source: String) -> Result<Resource, ParseError> {
 }
 
 func get_entry(ps: inout ParserStream, entry_start: String.Index) -> Result<Entry, ParserError> {
+    let result: Result<Entry, ParserError>
+    switch ps.currChar! { // FIXME: Force unwrap
+    case "#":
+        result = get_comment(ps: &ps).map { .comment($0) }
+    case "-":
+        result = get_term(ps: &ps, entry_start: entry_start).map { .term($0) }
+    default:
+        result = get_message(ps: &ps, entry_start: entry_start).map { .message($0) }
+    }
+    
+    return result
+}
+
+func get_message(ps: inout ParserStream, entry_start: String.Index) -> Result<Message, ParserError> {
     fatalError()
+}
+
+func get_term(ps: inout ParserStream, entry_start: String.Index) -> Result<Term, ParserError> {
+    fatalError()
+}
+
+
+func get_identifier(ps: inout ParserStream) -> Result<Identifier, ParserError> {
+    let start = ps.ptr
+    
+    switch ps.currChar {
+    case .some(let c) where c.isASCIILetter:
+        ps.advancePtr()
+    default:
+        return .failure(.init(kind: .expectedCharRange(range: "a-zA-Z"), start: ps.ptrOffset))
+    }
+    
+    while case .some(let c) = ps.currChar {
+        if c.isASCIILetter || c.isASCIINumber || ["_", "-"].contains(c) {
+            ps.advancePtr()
+        } else {
+            break
+        }
+    }
+    
+    let name = ps.get_slice(start: start, end: ps.ptr)
+    
+    return .success(.init(name: name))
+}
+
+// -
+
+func get_comment(ps: inout ParserStream) -> Result<Comment, ParserError> {
+    fatalError()
+}
+
+// -
+
+func get_number_literal(ps: inout ParserStream) -> Result<String, ParserError> {
+    let start = ps.ptr
+    _ = ps.take_byte_if(c: "-")
+    
+    var result = ps.skip_digits()
+    if ps.take_byte_if(c: ".") {
+        result = ps.skip_digits()
+    }
+
+    return result.map { _ in ps.get_slice(start: start, end: ps.ptr) }
 }

@@ -20,7 +20,7 @@ public struct ParserStream {
     }
     
     public func is_current_byte(_ c: Character) -> Bool {
-        getCurrChar() == c
+        currChar == c
     }
     
     public func is_byte_at(_ c: Character, pos: String.Index) -> Bool {
@@ -61,7 +61,7 @@ public struct ParserStream {
     
     public mutating func skip_blank() {
         while true {
-            switch getCurrChar() {
+            switch currChar {
             case " ":
                 advancePtr()
             case "\n":
@@ -76,7 +76,7 @@ public struct ParserStream {
     
     public mutating func skip_blank_inline() -> UInt {
         let start = ptr
-        while case .some(" ") = getCurrChar() {
+        while case .some(" ") = currChar {
             advancePtr()
         }
         
@@ -84,10 +84,10 @@ public struct ParserStream {
     }
     
     public mutating func skip_to_next_entry_start() {
-        while case .some(let b) = getCurrChar() {
+        while case .some(let b) = currChar {
             let new_line = ptr == source.startIndex || source[source.index(ptr, offsetBy: -1)] == .some("\n")
 
-            if new_line && (b.isASCII && b.isLetter || ["-", "#"].contains(b)) {
+            if new_line && (b.isASCIILetter || ["-", "#"].contains(b)) {
                 break
             }
 
@@ -96,7 +96,7 @@ public struct ParserStream {
     }
     
     public mutating func skip_eol() -> Bool {
-        switch getCurrChar() {
+        switch currChar {
         case .some("\n"):
             advancePtr()
             return true
@@ -112,7 +112,7 @@ public struct ParserStream {
         let start = self.ptr
         
         for _ in 0..<length {
-            switch getCurrChar() {
+            switch currChar {
             case .some(let b) where b.isASCII && b.isHexDigit:
                 advancePtr()
             default:
@@ -134,8 +134,8 @@ public struct ParserStream {
     }
 
     public func is_identifier_start() -> Bool {
-        switch getCurrChar() {
-        case .some(let b) where b.isASCII && b.isLetter:
+        switch currChar {
+        case .some(let b) where b.isASCIILetter:
             return true
         default:
             return false
@@ -147,8 +147,8 @@ public struct ParserStream {
     }
     
     public func is_number_start() -> Bool {
-        switch getCurrChar() {
-        case .some(let b) where b == "-" || (b.isASCII && b.isNumber):
+        switch currChar {
+        case .some(let b) where b == "-" || (b.isASCIINumber):
             return true
         default:
             return false
@@ -156,7 +156,7 @@ public struct ParserStream {
     }
     
     public func is_eol() -> Bool {
-        switch getCurrChar() {
+        switch currChar {
         case .some("\n"):
             return true
         case .some("\r") where is_byte_at("\n", pos: advancedPtr() ?? ptr):
@@ -174,8 +174,8 @@ public struct ParserStream {
         let start = self.ptr
         
         while true {
-            switch getCurrChar() {
-            case .some(let b) where b.isASCII && b.isNumber:
+            switch currChar {
+            case .some(let b) where b.isASCIINumber:
                 advancePtr()
             default:
                 break
@@ -200,7 +200,7 @@ public struct ParserStream {
         ptr == source.endIndex
     }
     
-    private func getCurrChar() -> Character? {
+    var currChar: Character? {
          isEnd ? nil : source[ptr]
     }
     
@@ -228,4 +228,11 @@ public struct ParserStream {
         UInt(source.distance(from: fromIndex, to: toIndex))
     }
     
+}
+
+// MARK: -
+
+extension Character {
+    var isASCIILetter: Bool { isASCII && isLetter }
+    var isASCIINumber: Bool { isASCII && isNumber }
 }
