@@ -39,7 +39,7 @@
 		A6763F0424E2744E00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6763F0C24E278ED00798213 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
 		A6CCAEB924E2C96C00B68A1F /* Unicode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unicode.swift; sourceTree = "<group>"; };
-		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
+		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UnicodeTests.swift; path = FluentSyntaxTests/UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
 		A6E205B424E2D0FF000743CB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		A6E205B624E3EB79000743CB /* ParserStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserStream.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
