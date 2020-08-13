@@ -29,7 +29,7 @@ public struct ParserStream {
     
     public mutating func expect_byte(_ c: Character) -> Result<Void, ParserError> {
         if !is_current_byte(c) {
-            return .failure(.init(kind: .expectedToken(c), start: distanceFromStart()))
+            return .failure(.init(kind: .expectedToken(c), start: ptrOffset))
         }
         advancePtr()
         return .success(())
@@ -80,7 +80,7 @@ public struct ParserStream {
             advancePtr()
         }
         
-        return distanceFrom(index: start)
+        return offset(from: start, to: ptr)
     }
     
     public mutating func skip_to_next_entry_start() {
@@ -120,12 +120,12 @@ public struct ParserStream {
             }
         }
         
-        if distanceFrom(index: start) != length {
-            let end = ptr == source.endIndex ? ptr : advancedPtr() ?? ptr
+        if offset(from: start, to: ptr) != length {
+            let end = isEnd ? ptr : advancedPtr() ?? ptr
             return .failure(
                 .init(
                     kind: .invalidUnicodeEscapeSequence(String(source[start..<end])),
-                    start: distanceFromStart()
+                    start: ptrOffset
                     )
                 )
         }
@@ -166,8 +166,8 @@ public struct ParserStream {
         }
     }
     
-    public func get_slice(start: UInt, end: UInt) -> String {
-        String(source[source.index(source.startIndex, offsetBy: Int(start))..<source.index(source.startIndex, offsetBy: Int(end))])
+    public func get_slice(start: String.Index, end: String.Index) -> String {
+        String(source[start..<end])
     }
     
     public mutating func skip_digits() -> Result<Void, ParserError> {
@@ -186,7 +186,7 @@ public struct ParserStream {
             return .failure(
                 .init(
                     kind: .expectedCharRange(range: "0-9"),
-                    start: distanceFromStart()
+                    start: ptrOffset
                 )
             )
         } else {
@@ -196,11 +196,15 @@ public struct ParserStream {
 
     // MARK: Utils -
     
-    private func getCurrChar() -> Character? {
-        ptr == source.endIndex ? nil : source[ptr]
+    var isEnd: Bool {
+        ptr == source.endIndex
     }
     
-    private mutating func advancePtr(offset: Int? = nil) {
+    private func getCurrChar() -> Character? {
+         isEnd ? nil : source[ptr]
+    }
+    
+    mutating func advancePtr(offset: Int? = nil) {
         if let newPtr = advancedPtr(offset: offset) {
             ptr = newPtr
         }
@@ -210,12 +214,18 @@ public struct ParserStream {
         source.index(ptr, offsetBy: offset ?? 1, limitedBy: source.endIndex)
     }
     
-    private func distanceFromStart() -> UInt {
-        distanceFrom(index: source.startIndex)
+    // MARK: Offsets
+    
+    var ptrOffset: UInt {
+        offset(to: ptr)
     }
     
-    private func distanceFrom(index: String.Index) -> UInt {
-        UInt(source.distance(from: index, to: ptr))
+    func offset(to index: String.Index) -> UInt {
+        offset(from: source.startIndex, to: index)
+    }
+    
+    func offset(from fromIndex: String.Index, to toIndex: String.Index) -> UInt {
+        UInt(source.distance(from: fromIndex, to: toIndex))
     }
     
 }

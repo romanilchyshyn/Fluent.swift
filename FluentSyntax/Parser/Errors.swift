@@ -15,13 +15,23 @@ public struct ParserError: Equatable, Error {
     }
     
     public let pos: Position
-    // TODO: Unused property?
-//    public let slice: Position?
+    public let slice: Position?
     public let kind: ErrorKind
     
     init(kind: ErrorKind, start: UInt, end: UInt? = nil) {
         self.kind = kind
         self.pos = Position(start: start, end: end ?? start + 1)
+        self.slice = nil
+    }
+    
+    init(pos: Position, slice: Position?, kind: ErrorKind) {
+        self.pos = pos
+        self.slice = slice
+        self.kind = kind
+    }
+    
+    func updatedWithSlice(_ position: Position) -> Self {
+        .init(pos: pos, slice: position, kind: kind)
     }
 }
 

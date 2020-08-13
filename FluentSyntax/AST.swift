@@ -26,6 +26,15 @@ public struct Message: Equatable {
     public let value: Pattern?
     public let attributes: [Attribute]
     public let comment: Comment?
+    
+    func updatedWithComment(_ comment: Comment) -> Self {
+        .init(
+            id: id,
+            value: value,
+            attributes: attributes,
+            comment: comment
+        )
+    }
 }
 
 public struct Term: Equatable {
@@ -33,6 +42,15 @@ public struct Term: Equatable {
     public let value: Pattern
     public let attributes: [Attribute]
     public let comment: Comment?
+    
+    func updatedWithComment(_ comment: Comment) -> Self {
+        .init(
+            id: id,
+            value: value,
+            attributes: attributes,
+            comment: comment
+        )
+    }
 }
 
 public struct Pattern: Equatable {
