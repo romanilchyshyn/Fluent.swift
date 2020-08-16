@@ -212,7 +212,7 @@ func get_expression(ps: inout ParserStream) -> Result<Expression, ParserError> {
     fatalError()
 }
 
-func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserError> {
+func get_inline_expression(ps: inout ParserStream) -> Result<InlineExpression, ParserError> {
     switch ps.currChar {
     case "\"":
         ps.advancePtr()
@@ -249,11 +249,11 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
         
         if case .failure(let err) = ps.expect_byte("\"") { return .failure(err) }
         let slice = ps.get_slice(start: start, end: ps.advancedPtr(offset: -1) ?? ps.ptr)
-        return .success(.inlineExpression(.stringLiteral(value: slice)))
+        return .success(.stringLiteral(value: slice))
     
     case let b where b?.isASCIINumber == true:
         let num = get_number_literal(ps: &ps)
-        return num.map { .inlineExpression(.numberLiteral(value: $0)) }
+        return num.map { .numberLiteral(value: $0) }
         
     case "-":
         ps.advancePtr()
@@ -287,17 +287,17 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
                 return .failure(err)
             }
             
-            return .success(.inlineExpression(.termReference(id: id, attribute: attribute, arguments: arguments)))
+            return .success(.termReference(id: id, attribute: attribute, arguments: arguments))
             
         } else {
             ps.advancePtr(offset: -1)
             let num = get_number_literal(ps: &ps)
-            return num.map { .inlineExpression(.numberLiteral(value: $0)) }
+            return num.map { .numberLiteral(value: $0) }
         }
     case "$":
         ps.advancePtr()
         let id = get_identifier(ps: &ps)
-        return id.map { .inlineExpression(.variableReference(id: $0)) }
+        return id.map { .variableReference(id: $0) }
         
     case let b where b?.isASCIILetter == true:
         // FIXME: Refactor ugly error mapping
@@ -328,7 +328,7 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
                 }
             }
             
-            return .success(.inlineExpression(.functionReference(id: id, arguments: arguments)))
+            return .success(.functionReference(id: id, arguments: arguments))
         } else {
             let attributeRes = get_attribute_accessor(ps: &ps)
             let attribute: Identifier?
@@ -339,12 +339,12 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
                 return .failure(err)
             }
             
-            return .success(.inlineExpression(.messageReference(id: id, attribute: attribute)))
+            return .success(.messageReference(id: id, attribute: attribute))
         }
     
     case "{":
         let exp = get_placeable(ps: &ps)
-        return exp.map { .inlineExpression(.placeable(expression: $0)) }
+        return exp.map { .placeable(expression: $0) }
         
     default:
         return .failure(.init(kind: .expectedInlineExpression, start: ps.ptrOffset))
@@ -352,8 +352,72 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
 }
 
 func get_call_arguments(ps: inout ParserStream) -> Result<CallArguments?, ParserError> {
-    // FIXME: Need implementation
-    fatalError()
+    ps.skip_blank()
+    if !ps.take_byte_if(c: "(") {
+        return .success(nil)
+    }
+    
+    var positional: [InlineExpression] = []
+    var named: [NamedArgument] = []
+    var argument_names: [String] = []
+    
+    while !ps.isEnd {
+        if ps.currChar == ")" {
+            break;
+        }
+        
+        let exprRes = get_inline_expression(ps: &ps)
+        let expr: InlineExpression
+        switch exprRes {
+        case .success(let e):
+            expr = e
+        case .failure(let err):
+            return .failure(err)
+        }
+        
+        switch expr {
+        case .messageReference(let id, nil):
+            if ps.is_current_byte(":") {
+                if argument_names.contains(id.name) {
+                    return .failure(.init(kind: .duplicatedNamedArgument(id.name), start: ps.ptrOffset))
+                }
+                ps.advancePtr()
+                ps.skip_blank()
+                
+                let valRes = get_inline_expression(ps: &ps)
+                let val: InlineExpression
+                switch valRes {
+                case .success(let e):
+                    val = e
+                case .failure(let err):
+                    return .failure(err)
+                }
+                
+                argument_names.append(id.name)
+                named.append(.init(name: .init(name: id.name), value: val))
+                
+            } else {
+                if !argument_names.isEmpty {
+                    return .failure(.init(kind: .positionalArgumentFollowsNamed, start: ps.ptrOffset))
+                }
+                positional.append(expr)
+            }
+            break
+        default:
+            if !argument_names.isEmpty {
+                return .failure(.init(kind: .positionalArgumentFollowsNamed, start: ps.ptrOffset))
+            }
+            positional.append(expr)
+        }
+        
+        ps.skip_blank()
+        _ = ps.take_byte_if(c: ",")
+        ps.skip_blank()
+    }
+    
+    if case .failure(let err) = ps.expect_byte(")") { return .failure(err) }
+    
+    return .success(CallArguments(positional: positional, named: named))
 }
 
 func get_number_literal(ps: inout ParserStream) -> Result<String, ParserError> {
