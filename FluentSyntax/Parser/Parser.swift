@@ -125,6 +125,15 @@ func get_identifier(ps: inout ParserStream) -> Result<Identifier, ParserError> {
     return .success(.init(name: name))
 }
 
+func get_attribute_accessor(ps: inout ParserStream) -> Result<Identifier?, ParserError> {
+    if !ps.take_byte_if(c: ".") {
+        return .success(nil)
+    } else {
+        let ident = get_identifier(ps: &ps)
+        return ident.map { .some($0) }
+    }
+}
+
 enum TextElementTermination: Equatable {
     case LineFeed
     case CRLF
@@ -249,11 +258,37 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
     case "-":
         ps.advancePtr()
         if ps.is_identifier_start() {
-            let idRes = get_identifier(ps: &ps)
-            // FIXME: Continue implementation
-//            let attribute = get_attribute_accessor(ps)?;
+            // FIXME: Refactor ugly error mapping
             
-            fatalError()
+            let idRes = get_identifier(ps: &ps)
+            let id: Identifier
+            switch idRes {
+            case .success(let i):
+                id = i
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+            let attributeRes = get_attribute_accessor(ps: &ps)
+            let attribute: Identifier?
+            switch attributeRes {
+            case .success(let a):
+                attribute = a
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+            let argumentsRes = get_call_arguments(ps: &ps)
+            let arguments: CallArguments?
+            switch argumentsRes {
+            case .success(let a):
+                arguments = a
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+            return .success(.inlineExpression(.termReference(id: id, attribute: attribute, arguments: arguments)))
+            
         } else {
             ps.advancePtr(offset: -1)
             let num = get_number_literal(ps: &ps)
@@ -265,11 +300,47 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
         return id.map { .inlineExpression(.variableReference(id: $0)) }
         
     case let b where b?.isASCIILetter == true:
-        let idRes = get_identifier(ps: &ps)
-         // FIXME: Continue implementation
-//         let arguments = get_call_arguments(ps)?;
+        // FIXME: Refactor ugly error mapping
         
-        fatalError()
+        let idRes = get_identifier(ps: &ps)
+        let id: Identifier
+        switch idRes {
+        case .success(let i):
+            id = i
+        case .failure(let err):
+            return .failure(err)
+        }
+        
+        let argumentsRes = get_call_arguments(ps: &ps)
+        let arguments: CallArguments?
+        switch argumentsRes {
+        case .success(let a):
+            arguments = a
+        case .failure(let err):
+            return .failure(err)
+        }
+        
+        if let arguments = arguments {
+            for b in id.name {
+                let isValidChar = (b.isASCII && b.isUppercase) || b.isASCIINumber || b == "_" || b == "-"
+                if !isValidChar {
+                    return .failure(.init(kind: .forbiddenCallee, start: ps.ptrOffset))
+                }
+            }
+            
+            return .success(.inlineExpression(.functionReference(id: id, arguments: arguments)))
+        } else {
+            let attributeRes = get_attribute_accessor(ps: &ps)
+            let attribute: Identifier?
+            switch attributeRes {
+            case .success(let a):
+                attribute = a
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+            return .success(.inlineExpression(.messageReference(id: id, attribute: attribute)))
+        }
     
     case "{":
         let exp = get_placeable(ps: &ps)
@@ -278,6 +349,11 @@ func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserE
     default:
         return .failure(.init(kind: .expectedInlineExpression, start: ps.ptrOffset))
     }
+}
+
+func get_call_arguments(ps: inout ParserStream) -> Result<CallArguments?, ParserError> {
+    // FIXME: Need implementation
+    fatalError()
 }
 
 func get_number_literal(ps: inout ParserStream) -> Result<String, ParserError> {
