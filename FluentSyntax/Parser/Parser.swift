@@ -83,6 +83,17 @@ func get_entry(ps: inout ParserStream, entry_start: String.Index) -> Result<Entr
 }
 
 func get_message(ps: inout ParserStream, entry_start: String.Index) -> Result<Message, ParserError> {
+    let id = get_identifier(ps: &ps)
+    if case .failure(let err) = id { return .failure(err) }
+    
+    _ = ps.skip_blank_inline();
+    
+    let expectByte = ps.expect_byte("=")
+    if case .failure(let err) = expectByte { return .failure(err) }
+    
+    // FIXME: Continue implementation
+//    let value = get_pattern(ps)?;
+    
     fatalError()
 }
 
@@ -114,13 +125,160 @@ func get_identifier(ps: inout ParserStream) -> Result<Identifier, ParserError> {
     return .success(.init(name: name))
 }
 
-// -
+enum TextElementTermination: Equatable {
+    case LineFeed
+    case CRLF
+    case PlaceableStart
+    case EOF
+}
+
+enum TextElementPosition: Equatable {
+    case InitialLineStart
+    case LineStart
+    case Continuation
+}
+
+enum PatternElementPlaceholders: Equatable {
+    case Placeable(Expression)
+    case TextElement(start: UInt, end: UInt, indent: UInt, position: TextElementPosition)
+}
+
+enum TextElementType: Equatable {
+    case Blank
+    case NonBlank
+}
+
+func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
+    var elements: [PatternElementPlaceholders] = []
+    var last_non_blank: Int?
+    var common_indent: Int?
+    
+    ps.skip_blank_inline()
+    
+    let text_element_role: TextElementPosition
+    if ps.skip_eol() {
+        _ = ps.skip_blank_block()
+        text_element_role = .LineStart
+    } else {
+        text_element_role = .InitialLineStart
+    }
+    
+    while !ps.isEnd {
+        if ps.currChar == "{" {
+            if text_element_role == .LineStart {
+                common_indent = 0
+            }
+            // FIXME: Continue implementation
+//            let exp = get_placeable(ps)?;
+        } else {
+            
+        }
+        
+    }
+    
+    fatalError()
+}
 
 func get_comment(ps: inout ParserStream) -> Result<Comment, ParserError> {
     fatalError()
 }
 
-// -
+func get_placeable(ps: inout ParserStream) -> Result<Expression, ParserError> {
+    if case .failure(let err) = ps.expect_byte("{") { return .failure(err) }
+    ps.skip_blank();
+    
+        // FIXME: Continue implementation
+    //    let exp = get_expression(ps)?;
+    
+    _ = ps.skip_blank_inline()
+    if case .failure(let err) = ps.expect_byte("}") { return .failure(err) }
+    
+    fatalError()
+}
+
+func get_expression(ps: inout ParserStream) -> Result<Expression, ParserError> {
+        // FIXME: Continue implementation
+    //    let exp = get_inline_expression(ps)?;
+    
+    fatalError()
+}
+
+func get_inline_expression(ps: inout ParserStream) -> Result<Expression, ParserError> {
+    switch ps.currChar {
+    case "\"":
+        ps.advancePtr()
+        let start = ps.ptr
+        while !ps.isEnd {
+            switch ps.currChar {
+            case "\\":
+                guard let nextPtr = ps.advancedPtr() else { return .failure(.init(kind: .generic, start: ps.ptrOffset)) }
+                switch ps.charAt(nextPtr) {
+                case "\\":
+                    ps.advancePtr(offset: 2)
+                case "{":
+                    ps.advancePtr(offset: 2)
+                case "\"":
+                    ps.advancePtr(offset: 2)
+                case "u":
+                    ps.advancePtr(offset: 2)
+                    if case .failure(let err) = ps.skip_unicode_escape_sequence(length: 4) { return .failure(err) }
+                case "U":
+                    ps.advancePtr(offset: 2)
+                    if case .failure(let err) = ps.skip_unicode_escape_sequence(length: 6) { return .failure(err) }
+                default:
+                    return .failure(.init(kind: .generic, start: ps.ptrOffset))
+                }
+                
+            case "\"":
+                break
+            case "\n":
+                return .failure(.init(kind: .generic, start: ps.ptrOffset))
+            default:
+                ps.advancePtr()
+            }
+        }
+        
+        if case .failure(let err) = ps.expect_byte("\"") { return .failure(err) }
+        let slice = ps.get_slice(start: start, end: ps.advancedPtr(offset: -1) ?? ps.ptr)
+        return .success(.inlineExpression(.stringLiteral(value: slice)))
+    
+    case let b where b?.isASCIINumber == true:
+        let num = get_number_literal(ps: &ps)
+        return num.map { .inlineExpression(.numberLiteral(value: $0)) }
+        
+    case "-":
+        ps.advancePtr()
+        if ps.is_identifier_start() {
+            let idRes = get_identifier(ps: &ps)
+            // FIXME: Continue implementation
+//            let attribute = get_attribute_accessor(ps)?;
+            
+            fatalError()
+        } else {
+            ps.advancePtr(offset: -1)
+            let num = get_number_literal(ps: &ps)
+            return num.map { .inlineExpression(.numberLiteral(value: $0)) }
+        }
+    case "$":
+        ps.advancePtr()
+        let id = get_identifier(ps: &ps)
+        return id.map { .inlineExpression(.variableReference(id: $0)) }
+        
+    case let b where b?.isASCIILetter == true:
+        let idRes = get_identifier(ps: &ps)
+         // FIXME: Continue implementation
+//         let arguments = get_call_arguments(ps)?;
+        
+        fatalError()
+    
+    case "{":
+        let exp = get_placeable(ps: &ps)
+        return exp.map { .inlineExpression(.placeable(expression: $0)) }
+        
+    default:
+        return .failure(.init(kind: .expectedInlineExpression, start: ps.ptrOffset))
+    }
+}
 
 func get_number_literal(ps: inout ParserStream) -> Result<String, ParserError> {
     let start = ps.ptr
