@@ -12,7 +12,7 @@ import Foundation
 
 public struct ParserStream {
     public let source: String
-    public private(set) var ptr: String.Index
+    public var ptr: String.Index
     
     public init(source: String) {
         self.source = source
@@ -204,13 +204,17 @@ public struct ParserStream {
          isEnd ? nil : source[ptr]
     }
     
+    func charAt(_ index: String.Index) -> Character? {
+        isEnd ? nil : source[index]
+    }
+    
     mutating func advancePtr(offset: Int? = nil) {
         if let newPtr = advancedPtr(offset: offset) {
             ptr = newPtr
         }
     }
     
-    private func advancedPtr(offset: Int? = nil) -> String.Index? {
+    func advancedPtr(offset: Int? = nil) -> String.Index? {
         source.index(ptr, offsetBy: offset ?? 1, limitedBy: source.endIndex)
     }
     

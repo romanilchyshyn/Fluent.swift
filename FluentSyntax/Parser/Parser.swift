@@ -299,7 +299,30 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
 }
 
 func get_text_slice(ps: inout ParserStream) -> Result<(String.Index, String.Index, TextElementType, TextElementTermination), ParserError> {
-    fatalError()
+    let start_pos = ps.ptr
+    var text_element_type: TextElementType = .Blank
+    
+    while !ps.isEnd {
+        switch ps.currChar {
+        case " ":
+            ps.advancePtr()
+        case "\n":
+            ps.advancePtr()
+            return .success((start_pos, ps.ptr, text_element_type, .LineFeed))
+        case "\r" where ps.is_byte_at("\n", pos: ps.advancedPtr() ?? ps.ptr):
+            ps.advancePtr()
+            return .success((start_pos, ps.ptr, text_element_type, .CRLF))
+        case "{":
+            return .success((start_pos, ps.ptr, text_element_type, .PlaceableStart))
+        case "}":
+            return .failure(.init(kind: .unbalancedClosingBrace, start: ps.ptrOffset))
+        default:
+            text_element_type = .NonBlank
+            ps.advancePtr()
+        }
+    }
+    
+    return .success((start_pos, ps.ptr, text_element_type, .EOF))
 }
 
 func get_comment(ps: inout ParserStream) -> Result<Comment, ParserError> {

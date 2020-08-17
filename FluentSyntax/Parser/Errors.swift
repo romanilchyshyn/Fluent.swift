@@ -84,7 +84,7 @@ extension ErrorKind: CustomStringConvertible {
         case .expectedCharRange(let range):
             return #"Expected one of "\#(range)\"#
         case .expectedMessageField(let entryId):
-            return #"Expected a message field for "\#(entryId)"#
+            return #"Expected a message field for "\#(entryId)""#
         case .expectedTermField(let entryId):
             return #"Expected a term field for "\#(entryId)""#
         case .forbiddenWhitespace:
