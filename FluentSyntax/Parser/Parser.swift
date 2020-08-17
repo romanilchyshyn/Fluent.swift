@@ -503,7 +503,92 @@ func get_text_slice(ps: inout ParserStream) -> Result<(String.Index, String.Inde
 }
 
 func get_comment(ps: inout ParserStream) -> Result<Comment, ParserError> {
-    fatalError()
+    var level: UInt?
+    var content: [String] = []
+    
+    while !ps.isEnd {
+        let line_level = get_comment_level(ps: &ps)
+        if line_level == 0 {
+            ps.advancePtr(offset: -1)
+            break
+        }
+        if let level = level, line_level != level {
+            ps.advancePtr(offset: Int(line_level))
+            break
+        }
+        
+        level = line_level
+        
+        if ps.isEnd {
+            break;
+        } else if ps.is_current_byte("\n") {
+            let commentLineRes = get_comment_line(ps: &ps)
+            let commentLine: String
+            switch commentLineRes {
+            case .success(let s):
+                commentLine = s
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+            content.append(commentLine)
+            
+        } else {
+            if case .failure(let e) = ps.expect_byte(" ") {
+                if content.isEmpty {
+                    return .failure(e);
+                } else {
+                    ps.advancePtr(offset: -Int(line_level))
+                    break;
+                }
+            }
+            
+            let commentLineRes = get_comment_line(ps: &ps)
+            let commentLine: String
+            switch commentLineRes {
+            case .success(let s):
+                commentLine = s
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+            content.append(commentLine)
+        }
+        
+        _ = ps.skip_eol()
+    }
+    
+    let comment: Comment
+    switch level {
+    case 3:
+        comment = .resourceComment(content: content)
+    case 2:
+        comment = .groupComment(content: content)
+    default:
+        comment = .comment(content: content)
+    }
+    
+    return .success(comment)
+}
+
+func get_comment_level(ps: inout ParserStream) -> UInt {
+    var chars: UInt = 0
+
+    while ps.take_byte_if(c: "#") {
+        chars += 1;
+    }
+
+    return chars
+}
+
+func get_comment_line(ps: inout ParserStream) -> Result<String, ParserError> {
+    let start_pos = ps.ptr
+
+    while !ps.isEnd && !ps.is_eol() {
+        ps.advancePtr()
+    }
+
+    return .success(ps.get_slice(start: start_pos, end: ps.ptr))
 }
 
 func get_placeable(ps: inout ParserStream) -> Result<Expression, ParserError> {
