@@ -153,7 +153,7 @@ enum TextElementPosition: Equatable {
 
 enum PatternElementPlaceholders: Equatable {
     case Placeable(Expression)
-    case TextElement(start: UInt, end: UInt, indent: UInt, position: TextElementPosition)
+    case TextElement(start: String.Index, end: String.Index, indent: UInt, position: TextElementPosition)
 }
 
 enum TextElementType: Equatable {
@@ -164,11 +164,11 @@ enum TextElementType: Equatable {
 func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
     var elements: [PatternElementPlaceholders] = []
     var last_non_blank: Int?
-    var common_indent: Int?
+    var common_indent: UInt?
     
-    ps.skip_blank_inline()
+    _ = ps.skip_blank_inline()
     
-    let text_element_role: TextElementPosition
+    var text_element_role: TextElementPosition
     if ps.skip_eol() {
         _ = ps.skip_blank_block()
         text_element_role = .LineStart
@@ -181,14 +181,124 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
             if text_element_role == .LineStart {
                 common_indent = 0
             }
-            // FIXME: Continue implementation
-//            let exp = get_placeable(ps)?;
+            
+            let expRes = get_placeable(ps: &ps)
+            let exp: Expression
+            switch expRes {
+            case .success(let e):
+                exp = e
+            case .failure(let err):
+                return .failure(err)
+            }
+            last_non_blank = elements.count
+            elements.append(.Placeable(exp));
+            text_element_role = .Continuation
         } else {
+            let slice_start = ps.ptr
+            var indent: UInt = 0
+            
+            if text_element_role == .LineStart {
+                indent = ps.skip_blank_inline()
+                if ps.isEnd {
+                    break
+                }
+                let b = ps.currChar!
+                if indent == 0 {
+                    if b == "\n" {
+                        break
+                    }
+                } else if !ps.is_byte_pattern_continuation(b: b) {
+                    ps.ptr = slice_start
+                    break
+                }
+            }
+            
+            let textSliceRes = get_text_slice(ps: &ps)
+            let textSlice: (start: String.Index, end: String.Index, text_element_type: TextElementType, termination_reason: TextElementTermination)
+            switch textSliceRes {
+            case .success(let tuple):
+                textSlice = tuple
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+            if textSlice.start != textSlice.end {
+                if text_element_role == .LineStart || textSlice.text_element_type == .NonBlank {
+                    if case .some(let common) = common_indent {
+                        if indent < common {
+                            common_indent = indent
+                        }
+                    } else {
+                        common_indent = indent
+                    }
+                }
+                
+                if text_element_role != .LineStart
+                    || textSlice.text_element_type == .NonBlank
+                    || textSlice.termination_reason == .LineFeed {
+                    
+                    if textSlice.text_element_type == .NonBlank {
+                        last_non_blank = elements.count
+                    }
+                    elements.append(.TextElement(
+                        start: textSlice.start,
+                        end: textSlice.end,
+                        indent: indent,
+                        position: text_element_role)
+                    )
+                }
+            }
+            
+            switch textSlice.termination_reason {
+            case .LineFeed:
+                text_element_role = .LineStart
+            case .CRLF:
+                text_element_role = .Continuation
+            case .PlaceableStart:
+                text_element_role = .Continuation
+            case .EOF:
+                text_element_role = .Continuation
+            }
             
         }
         
     }
     
+    if let last_non_blank = last_non_blank {
+        let elements: [PatternElement] = elements[..<(last_non_blank + 1)].enumerated().map { (i, elem) in
+            switch elem {
+            case .Placeable(let exp):
+                return .placeable(exp)
+            case .TextElement(let start, let end, let indent, let role):
+                let updatedStart: String.Index
+                if role == .LineStart {
+                    if let common_indent = common_indent {
+                        updatedStart = ps.source.index(start, offsetBy: Int(min(indent, common_indent)), limitedBy: ps.source.endIndex) ?? start
+                    } else {
+                        updatedStart = ps.source.index(start, offsetBy: Int(indent), limitedBy: ps.source.endIndex) ?? start
+                    }
+                } else {
+                    updatedStart = start
+                }
+                
+                let slice = ps.get_slice(start: updatedStart, end: end)
+                
+                if last_non_blank == i {
+                    return .textElement(slice) // slice.trim_end()
+                } else {
+                    return .textElement(slice)
+                }
+            }
+            
+        }
+        
+        return .success(.init(elements: elements))
+    }
+    
+    return .success(nil)
+}
+
+func get_text_slice(ps: inout ParserStream) -> Result<(String.Index, String.Index, TextElementType, TextElementTermination), ParserError> {
     fatalError()
 }
 
@@ -200,13 +310,31 @@ func get_placeable(ps: inout ParserStream) -> Result<Expression, ParserError> {
     if case .failure(let err) = ps.expect_byte("{") { return .failure(err) }
     ps.skip_blank();
     
-        // FIXME: Continue implementation
-    //    let exp = get_expression(ps)?;
+    let expRes = get_expression(ps: &ps)
+    let exp: Expression
+    switch expRes {
+    case .success(let e):
+        exp = e
+    case .failure(let err):
+        return .failure(err)
+    }
     
     _ = ps.skip_blank_inline()
     if case .failure(let err) = ps.expect_byte("}") { return .failure(err) }
     
-    fatalError()
+    let invalid_expression_found: Bool
+    switch exp {
+    case .inlineExpression(.termReference(_, let attribute, _)):
+        invalid_expression_found = attribute != nil
+    default:
+        invalid_expression_found = false
+    }
+    
+    if invalid_expression_found {
+        return .failure(.init(kind: .termAttributeAsPlaceable, start: ps.ptrOffset))
+    }
+    
+    return .success(exp)
 }
 
 func get_expression(ps: inout ParserStream) -> Result<Expression, ParserError> {
