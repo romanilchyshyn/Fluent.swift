@@ -101,6 +101,59 @@ func get_term(ps: inout ParserStream, entry_start: String.Index) -> Result<Term,
     fatalError()
 }
 
+func get_attributes(ps: inout ParserStream) -> Result<[Attribute], ParserError> {
+    var attributes: [Attribute] = []
+    
+    while true {
+        let line_start = ps.ptr
+        _ = ps.skip_blank_inline()
+        if !ps.is_current_byte(".") {
+            ps.ptr = line_start;
+            break;
+        }
+        
+        switch get_attribute(ps: &ps) {
+        case .success(let a):
+            attributes.append(a)
+        case .failure:
+            ps.ptr = line_start
+            break
+        }
+    }
+    
+    return .success(attributes)
+}
+
+func get_attribute(ps: inout ParserStream) -> Result<Attribute, ParserError> {
+    if case .failure(let err) = ps.expect_byte(".") { return .failure(err) }
+    
+    let idRes = get_identifier(ps: &ps)
+    let id: Identifier
+    switch idRes {
+    case .success(let i):
+        id = i
+    case .failure(let err):
+        return .failure(err)
+    }
+    
+    _ = ps.skip_blank_inline();
+    if case .failure(let err) = ps.expect_byte("=") { return .failure(err) }
+    
+    let patternRes = get_pattern(ps: &ps)
+    let pattern: Pattern?
+    switch patternRes {
+    case .success(let p):
+        pattern = p
+    case .failure(let err):
+        return .failure(err)
+    }
+
+    if let pattern = pattern {
+        return .success(.init(id: id, value: pattern))
+    } else {
+        return .failure(.init(kind: .missingValue, start: ps.ptrOffset))
+    }
+}
 
 func get_identifier(ps: inout ParserStream) -> Result<Identifier, ParserError> {
     let start = ps.ptr
