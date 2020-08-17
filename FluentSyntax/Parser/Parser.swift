@@ -83,25 +83,75 @@ func get_entry(ps: inout ParserStream, entry_start: String.Index) -> Result<Entr
 }
 
 func get_message(ps: inout ParserStream, entry_start: String.Index) -> Result<Message, ParserError> {
-    let id = get_identifier(ps: &ps)
-    if case .failure(let err) = id { return .failure(err) }
+    let idRes = get_identifier(ps: &ps)
+    let id: Identifier
+    switch idRes {
+    case .success(let i):
+        id = i
+    case .failure(let err):
+        return .failure(err)
+    }
     
     _ = ps.skip_blank_inline();
+    if case .failure(let err) = ps.expect_byte("=") { return .failure(err) }
     
-    let expectByte = ps.expect_byte("=")
-    if case .failure(let err) = expectByte { return .failure(err) }
+    let patternRes = get_pattern(ps: &ps)
+    let pattern: Pattern?
+    switch patternRes {
+    case .success(let p):
+        pattern = p
+    case .failure(let err):
+        return .failure(err)
+    }
     
-    // FIXME: Continue implementation
-//    let value = get_pattern(ps)?;
+    _ = ps.skip_blank_block()
     
-    fatalError()
+    let attributes = get_attributes(ps: &ps)
+    
+    if pattern == nil && attributes.isEmpty {
+        return .failure(.init(kind: .expectedMessageField(entryId: id.name), start: ps.offset(to: entry_start), end: ps.ptrOffset))
+    }
+    
+    return .success(.init(id: id, value: pattern, attributes: attributes, comment: nil))
 }
 
 func get_term(ps: inout ParserStream, entry_start: String.Index) -> Result<Term, ParserError> {
-    fatalError()
+    if case .failure(let err) = ps.expect_byte("-") { return .failure(err) }
+    
+    let idRes = get_identifier(ps: &ps)
+    let id: Identifier
+    switch idRes {
+    case .success(let i):
+        id = i
+    case .failure(let err):
+        return .failure(err)
+    }
+    
+    _ = ps.skip_blank_inline();
+    if case .failure(let err) = ps.expect_byte("=") { return .failure(err) }
+    _ = ps.skip_blank_inline();
+    
+    let patternRes = get_pattern(ps: &ps)
+    let pattern: Pattern?
+    switch patternRes {
+    case .success(let p):
+        pattern = p
+    case .failure(let err):
+        return .failure(err)
+    }
+    
+    _ = ps.skip_blank_block()
+    
+    let attributes = get_attributes(ps: &ps)
+    
+    if let pattern = pattern {
+        return .success(.init(id: id, value: pattern, attributes: attributes, comment: nil))
+    } else {
+        return .failure(.init(kind: .expectedTermField(entryId: id.name), start: ps.offset(to: entry_start), end: ps.ptrOffset))
+    }
 }
 
-func get_attributes(ps: inout ParserStream) -> Result<[Attribute], ParserError> {
+func get_attributes(ps: inout ParserStream) -> [Attribute] {
     var attributes: [Attribute] = []
     
     while true {
@@ -121,7 +171,7 @@ func get_attributes(ps: inout ParserStream) -> Result<[Attribute], ParserError> 
         }
     }
     
-    return .success(attributes)
+    return attributes
 }
 
 func get_attribute(ps: inout ParserStream) -> Result<Attribute, ParserError> {
