@@ -134,8 +134,82 @@ func get_attribute_accessor(ps: inout ParserStream) -> Result<Identifier?, Parse
     }
 }
 
+func get_variant_key(ps: inout ParserStream) -> Result<VariantKey, ParserError> {
+    if !ps.take_byte_if(c: "[") {
+        return .failure(.init(kind: .expectedToken("["), start: ps.ptrOffset))
+    }
+    ps.skip_blank()
+
+    let key: VariantKey
+    if ps.is_number_start() {
+        switch get_number_literal(ps: &ps) {
+        case .success(let v):
+            key = .numberLiteral(value: v)
+        case .failure(let err):
+            return .failure(err)
+        }
+    } else {
+        switch get_identifier(ps: &ps) {
+        case .success(let v):
+            key = .identifier(name: v.name)
+        case .failure(let err):
+            return .failure(err)
+        }
+    }
+
+    ps.skip_blank()
+
+    if case .failure(let err) = ps.expect_byte("]") { return .failure(err) }
+    
+    return .success(key)
+}
+
 func get_variants(ps: inout ParserStream) -> Result<[Variant], ParserError> {
-    fatalError()
+    var variants: [Variant] = []
+    var has_default = false
+    
+    while ps.is_current_byte("*") || ps.is_current_byte("[") {
+        let defaultVariant = ps.take_byte_if(c: "*")
+        if defaultVariant {
+            if has_default {
+                return .failure(.init(kind: .multipleDefaultVariants, start: ps.ptrOffset))
+            } else {
+                has_default = true
+            }
+        }
+        
+        let keyRes = get_variant_key(ps: &ps)
+        let key: VariantKey
+        switch keyRes {
+        case .success(let k):
+            key = k
+        case .failure(let err):
+            return .failure(err)
+        }
+        
+        let valueRes = get_pattern(ps: &ps)
+        let value: Pattern?
+        switch valueRes {
+        case .success(let v):
+            value = v
+        case .failure(let err):
+            return .failure(err)
+        }
+        
+        if let value = value {
+            variants.append(.init(key: key, value: value, default: defaultVariant))
+            ps.skip_blank()
+        } else {
+            return .failure(.init(kind: .missingValue, start: ps.ptrOffset))
+        }
+        
+    }
+    
+    if !has_default {
+        return .failure(.init(kind: .missingDefaultVariant, start: ps.ptrOffset))
+    } else {
+        return .success(variants)
+    }
 }
 
 enum TextElementTermination: Equatable {
