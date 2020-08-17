@@ -134,6 +134,10 @@ func get_attribute_accessor(ps: inout ParserStream) -> Result<Identifier?, Parse
     }
 }
 
+func get_variants(ps: inout ParserStream) -> Result<[Variant], ParserError> {
+    fatalError()
+}
+
 enum TextElementTermination: Equatable {
     case LineFeed
     case CRLF
@@ -206,10 +210,56 @@ func get_placeable(ps: inout ParserStream) -> Result<Expression, ParserError> {
 }
 
 func get_expression(ps: inout ParserStream) -> Result<Expression, ParserError> {
-        // FIXME: Continue implementation
-    //    let exp = get_inline_expression(ps)?;
+    let expRes = get_inline_expression(ps: &ps)
+    let exp: InlineExpression
+    switch expRes {
+    case .success(let e):
+        exp = e
+    case .failure(let err):
+        return .failure(err)
+    }
     
-    fatalError()
+    ps.skip_blank()
+    
+    if !ps.is_current_byte("-") || !ps.is_byte_at(">", pos: ps.advancedPtr() ?? ps.ptr) {
+        if case .termReference(_, let attribute, _) = exp,
+            attribute != nil {
+            return .failure(.init(kind: .termAttributeAsPlaceable, start: ps.ptrOffset))
+        }
+        return .success(.inlineExpression(exp))
+    }
+    
+    switch exp {
+    case .messageReference(_, let attribute):
+        if attribute == nil {
+            return .failure(.init(kind: .messageReferenceAsSelector, start: ps.ptrOffset))
+        } else {
+            return .failure(.init(kind: .messageAttributeAsSelector, start: ps.ptrOffset))
+        }
+    case .termReference(_, let attribute, _):
+        if attribute == nil {
+            return .failure(.init(kind: .termReferenceAsSelector, start: ps.ptrOffset))
+        }
+    case .stringLiteral,
+         .numberLiteral,
+         .variableReference,
+         .functionReference:
+        break
+    default:
+        return .failure(.init(kind: .expectedSimpleExpressionAsSelector, start: ps.ptrOffset))
+    }
+    
+    ps.advancePtr(offset: 2)
+    
+    _ = ps.skip_blank_inline()
+    if !ps.skip_eol() {
+        return .failure(.init(kind: .expectedCharRange(range: "\n | \r\n"), start: ps.ptrOffset))
+    }
+    ps.skip_blank()
+    
+    let variants = get_variants(ps: &ps)
+    
+    return variants.map { .selectExpression(selector: exp, variants: $0) }
 }
 
 func get_inline_expression(ps: inout ParserStream) -> Result<InlineExpression, ParserError> {
