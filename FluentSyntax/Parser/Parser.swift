@@ -381,7 +381,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                 }
                 let b = ps.currChar!
                 if indent == 0 {
-                    if b == "\n" {
+                    if b != "\n" {
                         break
                     }
                 } else if !ps.is_byte_pattern_continuation(b: b) {
@@ -400,7 +400,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
             }
             
             if textSlice.start != textSlice.end {
-                if text_element_role == .LineStart || textSlice.text_element_type == .NonBlank {
+                if text_element_role == .LineStart && textSlice.text_element_type == .NonBlank {
                     if case .some(let common) = common_indent {
                         if indent < common {
                             common_indent = indent
@@ -418,7 +418,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                         last_non_blank = elements.count
                     }
                     elements.append(.TextElement(
-                        start: textSlice.start,
+                        start: slice_start,
                         end: textSlice.end,
                         indent: indent,
                         position: text_element_role)
@@ -461,7 +461,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                 let slice = ps.get_slice(start: updatedStart, end: end)
                 
                 if last_non_blank == i {
-                    return .textElement(slice) // slice.trim_end()
+                    return .textElement(slice) // FIXME: !!!!!!!!!! slice.trim_end()
                 } else {
                     return .textElement(slice)
                 }
