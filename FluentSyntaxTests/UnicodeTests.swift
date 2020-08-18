@@ -9,7 +9,7 @@
 import XCTest
 import FluentSyntax
 
-class UnicodeTests: XCTestCase {
+final class UnicodeTests: XCTestCase {
 
     func test_unescapeUnicode() {
         XCTAssertEqual(unescapeUnicode(""), "")

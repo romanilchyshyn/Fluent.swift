@@ -12,6 +12,8 @@
 		A6763EFE24E2744E00798213 /* FluentSyntax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6763EF524E2744E00798213 /* FluentSyntax.framework */; };
 		A6763F0524E2744E00798213 /* FluentSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EF724E2744E00798213 /* FluentSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6763F0D24E278ED00798213 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6763F0C24E278ED00798213 /* AST.swift */; };
+		A6B634E724EBB7E20040438B /* ParserFixturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B634E624EBB7E20040438B /* ParserFixturesTests.swift */; };
+		A6B6357624EBC36A0040438B /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = A6B6357524EBC36A0040438B /* fixtures */; };
 		A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEB924E2C96C00B68A1F /* Unicode.swift */; };
 		A6CCAEBC24E2C9E400B68A1F /* UnicodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */; };
 		A6E205B224E2CF17000743CB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6763F0424E2744E00798213 /* Info.plist */; };
@@ -40,6 +42,8 @@
 		A6763EFD24E2744E00798213 /* FluentSyntaxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentSyntaxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6763F0424E2744E00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6763F0C24E278ED00798213 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		A6B634E624EBB7E20040438B /* ParserFixturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserFixturesTests.swift; sourceTree = "<group>"; };
+		A6B6357524EBC36A0040438B /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fixtures; sourceTree = "<group>"; };
 		A6CCAEB924E2C96C00B68A1F /* Unicode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unicode.swift; sourceTree = "<group>"; };
 		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UnicodeTests.swift; path = FluentSyntaxTests/UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
 		A6E205B424E2D0FF000743CB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 		A6763F0124E2744E00798213 /* FluentSyntaxTests */ = {
 			isa = PBXGroup;
 			children = (
+				A6B6357524EBC36A0040438B /* fixtures */,
+				A6B634E624EBB7E20040438B /* ParserFixturesTests.swift */,
 				A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */,
 				A6763F0424E2744E00798213 /* Info.plist */,
 			);
@@ -269,6 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6B6357624EBC36A0040438B /* fixtures in Resources */,
 				A6E205B224E2CF17000743CB /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6B634E724EBB7E20040438B /* ParserFixturesTests.swift in Sources */,
 				A6CCAEBC24E2C9E400B68A1F /* UnicodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,6 +354,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -409,6 +418,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -533,9 +543,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FluentSyntaxTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -556,9 +566,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FluentSyntaxTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
