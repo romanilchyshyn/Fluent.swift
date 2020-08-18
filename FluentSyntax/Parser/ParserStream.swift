@@ -24,7 +24,7 @@ public struct ParserStream {
     }
     
     public func is_byte_at(_ c: Character, pos: String.Index) -> Bool {
-        source[pos] == c
+        pos < source.endIndex ? source[pos] == c : false
     }
     
     public mutating func expect_byte(_ c: Character) -> Result<Void, ParserError> {
@@ -69,7 +69,7 @@ public struct ParserStream {
             case "\r" where source[advancedPtr() ?? ptr] == "\n":
                 advancePtr(offset: 2)
             default:
-                break
+                return
             }
         }
     }
@@ -173,12 +173,12 @@ public struct ParserStream {
     public mutating func skip_digits() -> Result<Void, ParserError> {
         let start = self.ptr
         
-        while true {
+        loop: while true {
             switch currChar {
             case .some(let b) where b.isASCIINumber:
                 advancePtr()
             default:
-                break
+                break loop
             }
         }
         

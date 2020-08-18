@@ -154,7 +154,7 @@ func get_term(ps: inout ParserStream, entry_start: String.Index) -> Result<Term,
 func get_attributes(ps: inout ParserStream) -> [Attribute] {
     var attributes: [Attribute] = []
     
-    while true {
+    loop: while true {
         let line_start = ps.ptr
         _ = ps.skip_blank_inline()
         if !ps.is_current_byte(".") {
@@ -167,7 +167,7 @@ func get_attributes(ps: inout ParserStream) -> [Attribute] {
             attributes.append(a)
         case .failure:
             ps.ptr = line_start
-            break
+            break loop
         }
     }
     
@@ -488,7 +488,7 @@ func get_text_slice(ps: inout ParserStream) -> Result<(String.Index, String.Inde
             return .success((start_pos, ps.ptr, text_element_type, .LineFeed))
         case "\r" where ps.is_byte_at("\n", pos: ps.advancedPtr() ?? ps.ptr):
             ps.advancePtr()
-            return .success((start_pos, ps.ptr, text_element_type, .CRLF))
+            return .success((start_pos, ps.advancedPtr(offset: -1) ?? ps.ptr, text_element_type, .CRLF))
         case "{":
             return .success((start_pos, ps.ptr, text_element_type, .PlaceableStart))
         case "}":
@@ -680,7 +680,7 @@ func get_inline_expression(ps: inout ParserStream) -> Result<InlineExpression, P
     case "\"":
         ps.advancePtr()
         let start = ps.ptr
-        while !ps.isEnd {
+        loop: while !ps.isEnd {
             switch ps.currChar {
             case "\\":
                 guard let nextPtr = ps.advancedPtr() else { return .failure(.init(kind: .generic, start: ps.ptrOffset)) }
@@ -702,7 +702,7 @@ func get_inline_expression(ps: inout ParserStream) -> Result<InlineExpression, P
                 }
                 
             case "\"":
-                break
+                break loop
             case "\n":
                 return .failure(.init(kind: .generic, start: ps.ptrOffset))
             default:
