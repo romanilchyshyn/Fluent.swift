@@ -19,15 +19,35 @@ final class ParserFixturesTests: XCTestCase {
             print("START: \(url.lastPathComponent)")
             
             let s = try! String(contentsOf: url, encoding: .utf8)
-            let r = parse(source: s)
             
+            let r = parse(source: s)
+        
             if case .success = r {
-                print("OK: \(url.lastPathComponent)")
+                print("   OK: \(url.lastPathComponent)")
             } else {
-                print("FAIL: \(url.lastPathComponent)")
+                print(" FAIL: \(url.lastPathComponent)")
             }
+            
         }
         
+    }
+    
+    func test_ParseFixture() {
+        let fixture = "tab"
+        
+        print("START: \(fixture)")
+        
+        let bundle = Bundle(for: type(of: self))
+        let url = bundle.url(forResource: fixture, withExtension: "ftl", subdirectory: "fixtures")!
+        let s = try! String(contentsOf: url, encoding: .utf8)
+        
+        let r = parse(source: s)
+        
+        if case .success = r {
+            print("OK: \(fixture)")
+        } else {
+            print("FAIL: \(fixture)")
+        }
     }
     
     func test_ParseFixturesCompare() {
