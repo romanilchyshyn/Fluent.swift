@@ -461,7 +461,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                 let slice = ps.get_slice(start: updatedStart, end: end)
                 
                 if last_non_blank == i {
-                    return .textElement(slice) // FIXME: !!!!!!!!!! slice.trim_end()
+                    return .textElement(String(slice.trailingSpacesTrimmed))
                 } else {
                     return .textElement(slice)
                 }
@@ -893,4 +893,18 @@ func get_number_literal(ps: inout ParserStream) -> Result<String, ParserError> {
     }
 
     return result.map { _ in ps.get_slice(start: start, end: ps.ptr) }
+}
+
+private extension StringProtocol {
+
+    @inline(__always)
+    var trailingSpacesTrimmed: Self.SubSequence {
+        var view = self[...]
+
+        while view.last?.isWhitespace == true {
+            view = view.dropLast()
+        }
+
+        return view
+    }
 }
