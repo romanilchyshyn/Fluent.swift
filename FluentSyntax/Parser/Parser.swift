@@ -36,6 +36,7 @@ public func parse(source: String) -> Result<Resource, ParseError> {
                 body.append(.entry(.comment(comment)))
             }
         }
+        last_comment = nil
         
         switch entry {
         case .success(.comment(let comment)):
