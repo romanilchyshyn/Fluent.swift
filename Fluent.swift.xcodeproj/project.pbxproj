@@ -14,6 +14,7 @@
 		A6763F0D24E278ED00798213 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6763F0C24E278ED00798213 /* AST.swift */; };
 		A6B634E724EBB7E20040438B /* ParserFixturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B634E624EBB7E20040438B /* ParserFixturesTests.swift */; };
 		A6B6357624EBC36A0040438B /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = A6B6357524EBC36A0040438B /* fixtures */; };
+		A6B6357B24ED22690040438B /* AST+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B6357A24ED22690040438B /* AST+Encodable.swift */; };
 		A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEB924E2C96C00B68A1F /* Unicode.swift */; };
 		A6CCAEBC24E2C9E400B68A1F /* UnicodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */; };
 		A6E205B224E2CF17000743CB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6763F0424E2744E00798213 /* Info.plist */; };
@@ -44,6 +45,7 @@
 		A6763F0C24E278ED00798213 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
 		A6B634E624EBB7E20040438B /* ParserFixturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserFixturesTests.swift; sourceTree = "<group>"; };
 		A6B6357524EBC36A0040438B /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fixtures; sourceTree = "<group>"; };
+		A6B6357A24ED22690040438B /* AST+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AST+Encodable.swift"; sourceTree = "<group>"; };
 		A6CCAEB924E2C96C00B68A1F /* Unicode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unicode.swift; sourceTree = "<group>"; };
 		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UnicodeTests.swift; path = FluentSyntaxTests/UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
 		A6E205B424E2D0FF000743CB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				A6763EF724E2744E00798213 /* FluentSyntax.h */,
 				A6763EF824E2744E00798213 /* Info.plist */,
 				A6763F0C24E278ED00798213 /* AST.swift */,
+				A6B6357924ED21CF0040438B /* JSON */,
 				A6E205B324E2D0D5000743CB /* Parser */,
 				A6CCAEB924E2C96C00B68A1F /* Unicode.swift */,
 			);
@@ -126,6 +129,14 @@
 				A6763F0424E2744E00798213 /* Info.plist */,
 			);
 			path = FluentSyntaxTests;
+			sourceTree = "<group>";
+		};
+		A6B6357924ED21CF0040438B /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				A6B6357A24ED22690040438B /* AST+Encodable.swift */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		A6E205B324E2D0D5000743CB /* Parser */ = {
@@ -296,6 +307,7 @@
 			files = (
 				A6763F0D24E278ED00798213 /* AST.swift in Sources */,
 				A6E205B524E2D0FF000743CB /* Errors.swift in Sources */,
+				A6B6357B24ED22690040438B /* AST+Encodable.swift in Sources */,
 				A636F31024E51CBE0043ECDC /* Parser.swift in Sources */,
 				A6E205B724E3EB79000743CB /* ParserStream.swift in Sources */,
 				A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */,
