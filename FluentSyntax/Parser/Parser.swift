@@ -48,7 +48,8 @@ public func parse(source: String) -> Result<Resource, ParseError> {
             let errWithSlice = err.updatedWithSlice(
                 ParserError.Position(
                     start: ps.offset(to: entry_start),
-                    end: ps.ptrOffset)
+                    end: ps.ptrOffset
+                )
             )
             errors.append(errWithSlice)
             let slice = ps.get_slice(start: entry_start, end: ps.ptr)
@@ -514,7 +515,7 @@ func get_comment(ps: inout ParserStream) -> Result<Comment, ParserError> {
             break
         }
         if let level = level, line_level != level {
-            ps.advancePtr(offset: Int(line_level))
+            ps.advancePtr(offset: -Int(line_level))
             break
         }
         
