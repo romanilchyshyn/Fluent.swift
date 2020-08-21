@@ -318,26 +318,26 @@ func get_variants(ps: inout ParserStream) -> Result<[Variant], ParserError> {
 }
 
 enum TextElementTermination: Equatable {
-    case LineFeed
+    case lineFeed
     case CRLF
-    case PlaceableStart
+    case placeableStart
     case EOF
 }
 
 enum TextElementPosition: Equatable {
-    case InitialLineStart
-    case LineStart
-    case Continuation
+    case initialLineStart
+    case lineStart
+    case continuation
 }
 
 enum PatternElementPlaceholders: Equatable {
-    case Placeable(Expression)
-    case TextElement(start: String.Index, end: String.Index, indent: UInt, position: TextElementPosition)
+    case placeable(Expression)
+    case textElement(start: String.Index, end: String.Index, indent: UInt, position: TextElementPosition)
 }
 
 enum TextElementType: Equatable {
-    case Blank
-    case NonBlank
+    case blank
+    case nonBlank
 }
 
 func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
@@ -350,14 +350,14 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
     var text_element_role: TextElementPosition
     if ps.skip_eol() {
         _ = ps.skip_blank_block()
-        text_element_role = .LineStart
+        text_element_role = .lineStart
     } else {
-        text_element_role = .InitialLineStart
+        text_element_role = .initialLineStart
     }
     
     while !ps.isEnd {
         if ps.currChar == "{" {
-            if text_element_role == .LineStart {
+            if text_element_role == .lineStart {
                 common_indent = 0
             }
             
@@ -370,13 +370,13 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                 return .failure(err)
             }
             last_non_blank = elements.count
-            elements.append(.Placeable(exp))
-            text_element_role = .Continuation
+            elements.append(.placeable(exp))
+            text_element_role = .continuation
         } else {
             let slice_start = ps.ptr
             var indent: UInt = 0
             
-            if text_element_role == .LineStart {
+            if text_element_role == .lineStart {
                 indent = ps.skip_blank_inline()
                 if ps.isEnd {
                     break
@@ -402,7 +402,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
             }
             
             if textSlice.start != textSlice.end {
-                if text_element_role == .LineStart && textSlice.text_element_type == .NonBlank {
+                if text_element_role == .lineStart && textSlice.text_element_type == .nonBlank {
                     if case .some(let common) = common_indent {
                         if indent < common {
                             common_indent = indent
@@ -412,15 +412,15 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                     }
                 }
                 
-                if text_element_role != .LineStart
-                    || textSlice.text_element_type == .NonBlank
-                    || textSlice.termination_reason == .LineFeed {
+                if text_element_role != .lineStart
+                    || textSlice.text_element_type == .nonBlank
+                    || textSlice.termination_reason == .lineFeed {
                     
-                    if textSlice.text_element_type == .NonBlank {
+                    if textSlice.text_element_type == .nonBlank {
                         last_non_blank = elements.count
                     }
                     elements.append(
-                        .TextElement(
+                        .textElement(
                             start: slice_start,
                             end: textSlice.end,
                             indent: indent,
@@ -431,14 +431,14 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
             }
             
             switch textSlice.termination_reason {
-            case .LineFeed:
-                text_element_role = .LineStart
+            case .lineFeed:
+                text_element_role = .lineStart
             case .CRLF:
-                text_element_role = .Continuation
-            case .PlaceableStart:
-                text_element_role = .Continuation
+                text_element_role = .continuation
+            case .placeableStart:
+                text_element_role = .continuation
             case .EOF:
-                text_element_role = .Continuation
+                text_element_role = .continuation
             }
             
         }
@@ -448,11 +448,11 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
     if let last_non_blank = last_non_blank {
         let elements: [PatternElement] = elements[..<(last_non_blank + 1)].enumerated().map { (i, elem) in
             switch elem {
-            case .Placeable(let exp):
+            case .placeable(let exp):
                 return .placeable(exp)
-            case .TextElement(let start, let end, let indent, let role):
+            case .textElement(let start, let end, let indent, let role):
                 let updatedStart: String.Index
-                if role == .LineStart {
+                if role == .lineStart {
                     if let common_indent = common_indent {
                         updatedStart = ps.source.index(start, offsetBy: Int(min(indent, common_indent)), limitedBy: ps.source.endIndex) ?? start
                     } else {
@@ -481,7 +481,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
 
 func get_text_slice(ps: inout ParserStream) -> Result<(String.Index, String.Index, TextElementType, TextElementTermination), ParserError> {
     let start_pos = ps.ptr
-    var text_element_type: TextElementType = .Blank
+    var text_element_type: TextElementType = .blank
     
     while !ps.isEnd {
         switch ps.currChar {
@@ -489,16 +489,16 @@ func get_text_slice(ps: inout ParserStream) -> Result<(String.Index, String.Inde
             ps.advancePtr()
         case "\n":
             ps.advancePtr()
-            return .success((start_pos, ps.ptr, text_element_type, .LineFeed))
+            return .success((start_pos, ps.ptr, text_element_type, .lineFeed))
         case "\r\n":
             ps.advancePtr()
             return .success((start_pos, ps.advancedPtr(offset: -1) ?? ps.ptr, text_element_type, .CRLF))
         case "{":
-            return .success((start_pos, ps.ptr, text_element_type, .PlaceableStart))
+            return .success((start_pos, ps.ptr, text_element_type, .placeableStart))
         case "}":
             return .failure(.init(kind: .unbalancedClosingBrace, start: ps.ptrOffset))
         default:
-            text_element_type = .NonBlank
+            text_element_type = .nonBlank
             ps.advancePtr()
         }
     }
