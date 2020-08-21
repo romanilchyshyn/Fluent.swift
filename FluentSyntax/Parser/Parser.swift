@@ -72,7 +72,7 @@ public func parse(source: String) -> Result<Resource, ParseError> {
 
 func get_entry(ps: inout ParserStream, entry_start: String.Index) -> Result<Entry, ParserError> {
     let result: Result<Entry, ParserError>
-    switch ps.currChar! { // FIXME: Force unwrap
+    switch ps.currChar {
     case "#":
         result = get_comment(ps: &ps).map { .comment($0) }
     case "-":
