@@ -64,7 +64,7 @@
                     {
                         "type": "Placeable",
                         "expression": {
-                            "type": "InlineExpression",
+                             
                             "type": "TermReference",
                             "id": {
                                 "type": "Identifier",
@@ -134,7 +134,7 @@
                             {
                                 "type": "Placeable",
                                 "expression": {
-                                    "type": "InlineExpression",
+                                     
                                     "type": "VariableReference",
                                     "id": {
                                         "type": "Identifier",
@@ -149,7 +149,7 @@
                             {
                                 "type": "Placeable",
                                 "expression": {
-                                    "type": "InlineExpression",
+                                     
                                     "type": "VariableReference",
                                     "id": {
                                         "type": "Identifier",
@@ -274,7 +274,7 @@
                             {
                                 "type": "Placeable",
                                 "expression": {
-                                    "type": "InlineExpression",
+                                     
                                     "type": "VariableReference",
                                     "id": {
                                         "type": "Identifier",
@@ -289,7 +289,7 @@
                             {
                                 "type": "Placeable",
                                 "expression": {
-                                    "type": "InlineExpression",
+                                     
                                     "type": "VariableReference",
                                     "id": {
                                         "type": "Identifier",

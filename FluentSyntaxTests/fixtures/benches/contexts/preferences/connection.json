@@ -1111,7 +1111,7 @@
                             {
                                 "type": "Placeable",
                                 "expression": {
-                                    "type": "InlineExpression",
+                                     
                                     "type": "VariableReference",
                                     "id": {
                                         "type": "Identifier",

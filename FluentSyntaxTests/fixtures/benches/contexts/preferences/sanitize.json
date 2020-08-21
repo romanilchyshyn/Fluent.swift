@@ -180,7 +180,7 @@
                     {
                         "type": "Placeable",
                         "expression": {
-                            "type": "InlineExpression",
+                             
                             "type": "TermReference",
                             "id": {
                                 "type": "Identifier",
@@ -227,7 +227,7 @@
                             {
                                 "type": "Placeable",
                                 "expression": {
-                                    "type": "InlineExpression",
+                                     
                                     "type": "StringLiteral",
                                     "value": " "
                                 }
@@ -409,7 +409,7 @@
                             {
                                 "type": "Placeable",
                                 "expression": {
-                                    "type": "InlineExpression",
+                                     
                                     "type": "StringLiteral",
                                     "value": ""
                                 }
