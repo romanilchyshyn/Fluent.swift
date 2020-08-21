@@ -595,7 +595,7 @@ func get_comment_line(ps: inout ParserStream) -> Result<String, ParserError> {
 
 func get_placeable(ps: inout ParserStream) -> Result<Expression, ParserError> {
     if case .failure(let err) = ps.expect_byte("{") { return .failure(err) }
-    ps.skip_blank();
+    ps.skip_blank()
     
     let expRes = get_expression(ps: &ps)
     let exp: Expression
@@ -826,6 +826,8 @@ func get_call_arguments(ps: inout ParserStream) -> Result<CallArguments?, Parser
     var named: [NamedArgument] = []
     var argument_names: [String] = []
     
+    ps.skip_blank()
+    
     while !ps.isEnd {
         if ps.currChar == ")" {
             break;
@@ -842,6 +844,7 @@ func get_call_arguments(ps: inout ParserStream) -> Result<CallArguments?, Parser
         
         switch expr {
         case .messageReference(let id, nil):
+            ps.skip_blank()
             if ps.is_current_byte(":") {
                 if argument_names.contains(id.name) {
                     return .failure(.init(kind: .duplicatedNamedArgument(id.name), start: ps.ptrOffset))
