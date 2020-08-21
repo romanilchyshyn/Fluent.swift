@@ -24,7 +24,7 @@ public func unescapeUnicode(_ input: String) -> String {
         if input[ptr] != "\\" {
             result.append(input[ptr])
             ptr = input.index(after: ptr)
-            continue;
+            continue
         }
         
         ptr = input.index(after: ptr)

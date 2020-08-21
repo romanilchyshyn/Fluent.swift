@@ -94,7 +94,7 @@ func get_message(ps: inout ParserStream, entry_start: String.Index) -> Result<Me
         return .failure(err)
     }
     
-    _ = ps.skip_blank_inline();
+    _ = ps.skip_blank_inline()
     if case .failure(let err) = ps.expect_byte("=") { return .failure(err) }
     
     let patternRes = get_pattern(ps: &ps)
@@ -129,9 +129,9 @@ func get_term(ps: inout ParserStream, entry_start: String.Index) -> Result<Term,
         return .failure(err)
     }
     
-    _ = ps.skip_blank_inline();
+    _ = ps.skip_blank_inline()
     if case .failure(let err) = ps.expect_byte("=") { return .failure(err) }
-    _ = ps.skip_blank_inline();
+    _ = ps.skip_blank_inline()
     
     let patternRes = get_pattern(ps: &ps)
     let pattern: Pattern?
@@ -160,8 +160,8 @@ func get_attributes(ps: inout ParserStream) -> [Attribute] {
         let line_start = ps.ptr
         _ = ps.skip_blank_inline()
         if !ps.is_current_byte(".") {
-            ps.ptr = line_start;
-            break;
+            ps.ptr = line_start
+            break
         }
         
         switch get_attribute(ps: &ps) {
@@ -188,7 +188,7 @@ func get_attribute(ps: inout ParserStream) -> Result<Attribute, ParserError> {
         return .failure(err)
     }
     
-    _ = ps.skip_blank_inline();
+    _ = ps.skip_blank_inline()
     if case .failure(let err) = ps.expect_byte("=") { return .failure(err) }
     
     let patternRes = get_pattern(ps: &ps)
@@ -370,7 +370,7 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                 return .failure(err)
             }
             last_non_blank = elements.count
-            elements.append(.Placeable(exp));
+            elements.append(.Placeable(exp))
             text_element_role = .Continuation
         } else {
             let slice_start = ps.ptr
@@ -524,7 +524,7 @@ func get_comment(ps: inout ParserStream) -> Result<Comment, ParserError> {
         level = line_level
         
         if ps.isEnd {
-            break;
+            break
         } else if ps.is_current_byte("\n") {
             let commentLineRes = get_comment_line(ps: &ps)
             let commentLine: String
@@ -540,10 +540,10 @@ func get_comment(ps: inout ParserStream) -> Result<Comment, ParserError> {
         } else {
             if case .failure(let e) = ps.expect_byte(" ") {
                 if content.isEmpty {
-                    return .failure(e);
+                    return .failure(e)
                 } else {
                     ps.advancePtr(offset: -Int(line_level))
-                    break;
+                    break
                 }
             }
             
@@ -579,7 +579,7 @@ func get_comment_level(ps: inout ParserStream) -> UInt {
     var chars: UInt = 0
 
     while ps.take_byte_if(c: "#") {
-        chars += 1;
+        chars += 1
     }
 
     return chars
@@ -832,7 +832,7 @@ func get_call_arguments(ps: inout ParserStream) -> Result<CallArguments?, Parser
     
     while !ps.isEnd {
         if ps.currChar == ")" {
-            break;
+            break
         }
         
         let exprRes = get_inline_expression(ps: &ps)
