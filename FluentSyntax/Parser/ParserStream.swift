@@ -10,7 +10,7 @@ import Foundation
 
 // FIXME: All byte related stuff needs renaming to `character`
 
-public struct ParserStream {
+struct ParserStream {
     public let source: String
     public var ptr: String.Index
     
