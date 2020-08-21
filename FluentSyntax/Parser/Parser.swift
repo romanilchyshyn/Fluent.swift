@@ -419,11 +419,13 @@ func get_pattern(ps: inout ParserStream) -> Result<Pattern?, ParserError> {
                     if textSlice.text_element_type == .NonBlank {
                         last_non_blank = elements.count
                     }
-                    elements.append(.TextElement(
-                        start: slice_start,
-                        end: textSlice.end,
-                        indent: indent,
-                        position: text_element_role)
+                    elements.append(
+                        .TextElement(
+                            start: slice_start,
+                            end: textSlice.end,
+                            indent: indent,
+                            position: text_element_role
+                        )
                     )
                 }
             }
@@ -488,7 +490,7 @@ func get_text_slice(ps: inout ParserStream) -> Result<(String.Index, String.Inde
         case "\n":
             ps.advancePtr()
             return .success((start_pos, ps.ptr, text_element_type, .LineFeed))
-        case "\r" where ps.is_byte_at("\n", pos: ps.advancedPtr() ?? ps.ptr):
+        case "\r\n":
             ps.advancePtr()
             return .success((start_pos, ps.advancedPtr(offset: -1) ?? ps.ptr, text_element_type, .CRLF))
         case "{":

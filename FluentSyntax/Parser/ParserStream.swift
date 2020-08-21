@@ -64,10 +64,9 @@ public struct ParserStream {
             switch currChar {
             case " ":
                 advancePtr()
-            case "\n":
+            case "\n",
+                 "\r\n":
                 advancePtr()
-            case "\r" where source[advancedPtr() ?? ptr] == "\n":
-                advancePtr(offset: 2)
             default:
                 return
             }
@@ -97,11 +96,9 @@ public struct ParserStream {
     
     public mutating func skip_eol() -> Bool {
         switch currChar {
-        case .some("\n"):
+        case "\n",
+             "\r\n":
             advancePtr()
-            return true
-        case .some("\r") where is_byte_at("\n", pos: advancedPtr() ?? ptr):
-            advancePtr(offset: 2)
             return true
         default:
             return false
@@ -157,9 +154,8 @@ public struct ParserStream {
     
     public func is_eol() -> Bool {
         switch currChar {
-        case .some("\n"):
-            return true
-        case .some("\r") where is_byte_at("\n", pos: advancedPtr() ?? ptr):
+        case "\n",
+             "\r\n":
             return true
         default:
             return false
