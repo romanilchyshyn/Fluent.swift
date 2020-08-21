@@ -58,7 +58,7 @@ final class ParserFixturesTests: XCTestCase {
 
         // Encode
         
-        let ftlEncodedData = try! JSONEncoder().encode(ast)
+        let ftlEncodedData = try! serialize(resourse: ast)
         let jsonEncodedData = try! Data(contentsOf: ftlUrl.deletingPathExtension().appendingPathExtension("json"))
         
         // Assert

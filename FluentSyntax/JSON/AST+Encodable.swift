@@ -6,6 +6,10 @@
 //  Copyright © 2020  Roman Ilchyshyn. All rights reserved.
 //
 
+public func serialize(resourse: Resource) throws -> Data {
+    return try JSONEncoder().encode(resourse)
+}
+
 extension Resource: Encodable {
     enum CodingKeys: String, CodingKey {
         case type
