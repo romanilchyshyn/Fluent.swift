@@ -9,6 +9,16 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>FluentBundle.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>FluentBundleTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 		<key>FluentSyntax.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -22,6 +32,21 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>A64F394824F11067002575EB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A64F395024F11067002575EB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A6763EE424E273DA00798213</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A6763EF424E2744E00798213</key>
 		<dict>
 			<key>primary</key>

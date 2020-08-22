@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A636F31024E51CBE0043ECDC /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A636F30F24E51CBE0043ECDC /* Parser.swift */; };
+		A64F395224F11067002575EB /* FluentBundle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64F394924F11067002575EB /* FluentBundle.framework */; };
+		A64F395724F11067002575EB /* FluentBundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64F395624F11067002575EB /* FluentBundleTests.swift */; };
+		A64F395924F11067002575EB /* FluentBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = A64F394B24F11067002575EB /* FluentBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6763EEA24E273DA00798213 /* Fluent_swift.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EE824E273DA00798213 /* Fluent_swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6763EFE24E2744E00798213 /* FluentSyntax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6763EF524E2744E00798213 /* FluentSyntax.framework */; };
 		A6763F0524E2744E00798213 /* FluentSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EF724E2744E00798213 /* FluentSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,6 +26,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A64F395324F11067002575EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A6763EDC24E273DA00798213 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A64F394824F11067002575EB;
+			remoteInfo = FluentBundle;
+		};
 		A6763EFF24E2744E00798213 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A6763EDC24E273DA00798213 /* Project object */;
@@ -34,6 +44,12 @@
 
 /* Begin PBXFileReference section */
 		A636F30F24E51CBE0043ECDC /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		A64F394924F11067002575EB /* FluentBundle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluentBundle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A64F394B24F11067002575EB /* FluentBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FluentBundle.h; sourceTree = "<group>"; };
+		A64F394C24F11067002575EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A64F395124F11067002575EB /* FluentBundleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentBundleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A64F395624F11067002575EB /* FluentBundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentBundleTests.swift; sourceTree = "<group>"; };
+		A64F395824F11067002575EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6763EE524E273DA00798213 /* Fluent_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fluent_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6763EE824E273DA00798213 /* Fluent_swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fluent_swift.h; sourceTree = "<group>"; };
 		A6763EE924E273DA00798213 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,6 +69,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A64F394624F11067002575EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A64F394E24F11067002575EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A64F395224F11067002575EB /* FluentBundle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A6763EE224E273DA00798213 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -78,12 +109,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A64F394A24F11067002575EB /* FluentBundle */ = {
+			isa = PBXGroup;
+			children = (
+				A64F394B24F11067002575EB /* FluentBundle.h */,
+				A64F394C24F11067002575EB /* Info.plist */,
+			);
+			path = FluentBundle;
+			sourceTree = "<group>";
+		};
+		A64F395524F11067002575EB /* FluentBundleTests */ = {
+			isa = PBXGroup;
+			children = (
+				A64F395624F11067002575EB /* FluentBundleTests.swift */,
+				A64F395824F11067002575EB /* Info.plist */,
+			);
+			path = FluentBundleTests;
+			sourceTree = "<group>";
+		};
 		A6763EDB24E273DA00798213 = {
 			isa = PBXGroup;
 			children = (
 				A6763EE724E273DA00798213 /* Fluent.swift */,
 				A6763EF624E2744E00798213 /* FluentSyntax */,
 				A6763F0124E2744E00798213 /* FluentSyntaxTests */,
+				A64F394A24F11067002575EB /* FluentBundle */,
+				A64F395524F11067002575EB /* FluentBundleTests */,
 				A6763EE624E273DA00798213 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,6 +145,8 @@
 				A6763EE524E273DA00798213 /* Fluent_swift.framework */,
 				A6763EF524E2744E00798213 /* FluentSyntax.framework */,
 				A6763EFD24E2744E00798213 /* FluentSyntaxTests.xctest */,
+				A64F394924F11067002575EB /* FluentBundle.framework */,
+				A64F395124F11067002575EB /* FluentBundleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,6 +205,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		A64F394424F11067002575EB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A64F395924F11067002575EB /* FluentBundle.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A6763EE024E273DA00798213 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -171,6 +232,42 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		A64F394824F11067002575EB /* FluentBundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A64F395E24F11068002575EB /* Build configuration list for PBXNativeTarget "FluentBundle" */;
+			buildPhases = (
+				A64F394424F11067002575EB /* Headers */,
+				A64F394524F11067002575EB /* Sources */,
+				A64F394624F11067002575EB /* Frameworks */,
+				A64F394724F11067002575EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FluentBundle;
+			productName = FluentBundle;
+			productReference = A64F394924F11067002575EB /* FluentBundle.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A64F395024F11067002575EB /* FluentBundleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A64F395F24F11068002575EB /* Build configuration list for PBXNativeTarget "FluentBundleTests" */;
+			buildPhases = (
+				A64F394D24F11067002575EB /* Sources */,
+				A64F394E24F11067002575EB /* Frameworks */,
+				A64F394F24F11067002575EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A64F395424F11067002575EB /* PBXTargetDependency */,
+			);
+			name = FluentBundleTests;
+			productName = FluentBundleTests;
+			productReference = A64F395124F11067002575EB /* FluentBundleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A6763EE424E273DA00798213 /* Fluent.swift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A6763EED24E273DA00798213 /* Build configuration list for PBXNativeTarget "Fluent.swift" */;
@@ -235,6 +332,12 @@
 				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = " Roman Ilchyshyn";
 				TargetAttributes = {
+					A64F394824F11067002575EB = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					A64F395024F11067002575EB = {
+						CreatedOnToolsVersion = 11.6;
+					};
 					A6763EE424E273DA00798213 = {
 						CreatedOnToolsVersion = 11.6;
 					};
@@ -263,11 +366,27 @@
 				A6763EE424E273DA00798213 /* Fluent.swift */,
 				A6763EF424E2744E00798213 /* FluentSyntax */,
 				A6763EFC24E2744E00798213 /* FluentSyntaxTests */,
+				A64F394824F11067002575EB /* FluentBundle */,
+				A64F395024F11067002575EB /* FluentBundleTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A64F394724F11067002575EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A64F394F24F11067002575EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A6763EE324E273DA00798213 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,6 +413,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A64F394524F11067002575EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A64F394D24F11067002575EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A64F395724F11067002575EB /* FluentBundleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A6763EE124E273DA00798213 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -326,6 +460,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A64F395424F11067002575EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A64F394824F11067002575EB /* FluentBundle */;
+			targetProxy = A64F395324F11067002575EB /* PBXContainerItemProxy */;
+		};
 		A6763F0024E2744E00798213 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A6763EF424E2744E00798213 /* FluentSyntax */;
@@ -334,6 +473,98 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A64F395A24F11068002575EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FluentBundle/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.romanilchyshyn.FluentBundle;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A64F395B24F11068002575EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FluentBundle/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.romanilchyshyn.FluentBundle;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A64F395C24F11068002575EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = FluentBundleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.romanilchyshyn.FluentBundleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A64F395D24F11068002575EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = FluentBundleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.romanilchyshyn.FluentBundleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		A6763EEB24E273DA00798213 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -612,6 +843,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A64F395E24F11068002575EB /* Build configuration list for PBXNativeTarget "FluentBundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A64F395A24F11068002575EB /* Debug */,
+				A64F395B24F11068002575EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A64F395F24F11068002575EB /* Build configuration list for PBXNativeTarget "FluentBundleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A64F395C24F11068002575EB /* Debug */,
+				A64F395D24F11068002575EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A6763EDF24E273DA00798213 /* Build configuration list for PBXProject "Fluent.swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
