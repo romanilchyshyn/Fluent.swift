@@ -23,6 +23,11 @@
 		A6E205B224E2CF17000743CB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6763F0424E2744E00798213 /* Info.plist */; };
 		A6E205B524E2D0FF000743CB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E205B424E2D0FF000743CB /* Errors.swift */; };
 		A6E205B724E3EB79000743CB /* ParserStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E205B624E3EB79000743CB /* ParserStream.swift */; };
+		A6E5322324F1127E00A9F509 /* FluentBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322224F1127E00A9F509 /* FluentBundle.swift */; };
+		A6E5322624F1641300A9F509 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322524F1641300A9F509 /* Types.swift */; };
+		A6E5322824F16B4000A9F509 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322724F16B4000A9F509 /* Errors.swift */; };
+		A6E5322A24F16D5D00A9F509 /* FluentResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322924F16D5D00A9F509 /* FluentResource.swift */; };
+		A6E5322C24F29E5E00A9F509 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322B24F29E5E00A9F509 /* Entry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +71,11 @@
 		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UnicodeTests.swift; path = FluentSyntaxTests/UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
 		A6E205B424E2D0FF000743CB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		A6E205B624E3EB79000743CB /* ParserStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserStream.swift; sourceTree = "<group>"; };
+		A6E5322224F1127E00A9F509 /* FluentBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentBundle.swift; sourceTree = "<group>"; };
+		A6E5322524F1641300A9F509 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		A6E5322724F16B4000A9F509 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		A6E5322924F16D5D00A9F509 /* FluentResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentResource.swift; sourceTree = "<group>"; };
+		A6E5322B24F29E5E00A9F509 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +123,11 @@
 			isa = PBXGroup;
 			children = (
 				A64F394B24F11067002575EB /* FluentBundle.h */,
+				A6E5322424F163E400A9F509 /* Types */,
+				A6E5322224F1127E00A9F509 /* FluentBundle.swift */,
+				A6E5322724F16B4000A9F509 /* Errors.swift */,
+				A6E5322B24F29E5E00A9F509 /* Entry.swift */,
+				A6E5322924F16D5D00A9F509 /* FluentResource.swift */,
 				A64F394C24F11067002575EB /* Info.plist */,
 			);
 			path = FluentBundle;
@@ -200,6 +215,14 @@
 				A636F30F24E51CBE0043ECDC /* Parser.swift */,
 			);
 			path = Parser;
+			sourceTree = "<group>";
+		};
+		A6E5322424F163E400A9F509 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				A6E5322524F1641300A9F509 /* Types.swift */,
+			);
+			path = Types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,6 +357,7 @@
 				TargetAttributes = {
 					A64F394824F11067002575EB = {
 						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1160;
 					};
 					A64F395024F11067002575EB = {
 						CreatedOnToolsVersion = 11.6;
@@ -417,6 +441,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6E5322C24F29E5E00A9F509 /* Entry.swift in Sources */,
+				A6E5322324F1127E00A9F509 /* FluentBundle.swift in Sources */,
+				A6E5322A24F16D5D00A9F509 /* FluentResource.swift in Sources */,
+				A6E5322824F16B4000A9F509 /* Errors.swift in Sources */,
+				A6E5322624F1641300A9F509 /* Types.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +505,7 @@
 		A64F395A24F11068002575EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -494,6 +524,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -502,6 +533,7 @@
 		A64F395B24F11068002575EB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -528,6 +560,7 @@
 		A64F395C24F11068002575EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FluentBundleTests/Info.plist;
@@ -548,6 +581,7 @@
 		A64F395D24F11068002575EB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FluentBundleTests/Info.plist;
