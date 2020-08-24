@@ -9,9 +9,9 @@
 import Foundation
 
 public enum FluentValue: Equatable {
-    case String(String)
-    case Number // (FluentNumber)
-    case Custom // (FluentType)
-    case Error  // (DisplayableNode)
-    case None
+    case string(String)
+    case number(FluentNumber)
+    case custom // (FluentType)
+    case error  // (DisplayableNode)
+    case none
 }

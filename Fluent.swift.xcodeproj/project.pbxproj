@@ -28,6 +28,7 @@
 		A6E5322824F16B4000A9F509 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322724F16B4000A9F509 /* Errors.swift */; };
 		A6E5322A24F16D5D00A9F509 /* FluentResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322924F16D5D00A9F509 /* FluentResource.swift */; };
 		A6E5322C24F29E5E00A9F509 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322B24F29E5E00A9F509 /* Entry.swift */; };
+		A6E5322E24F3C24A00A9F509 /* Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322D24F3C24A00A9F509 /* Number.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		A6E5322724F16B4000A9F509 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		A6E5322924F16D5D00A9F509 /* FluentResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentResource.swift; sourceTree = "<group>"; };
 		A6E5322B24F29E5E00A9F509 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		A6E5322D24F3C24A00A9F509 /* Number.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Number.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				A6E5322524F1641300A9F509 /* Types.swift */,
+				A6E5322D24F3C24A00A9F509 /* Number.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 			files = (
 				A6E5322C24F29E5E00A9F509 /* Entry.swift in Sources */,
 				A6E5322324F1127E00A9F509 /* FluentBundle.swift in Sources */,
+				A6E5322E24F3C24A00A9F509 /* Number.swift in Sources */,
 				A6E5322A24F16D5D00A9F509 /* FluentResource.swift in Sources */,
 				A6E5322824F16B4000A9F509 /* Errors.swift in Sources */,
 				A6E5322624F1641300A9F509 /* Types.swift in Sources */,
