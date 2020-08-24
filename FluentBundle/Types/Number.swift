@@ -55,15 +55,15 @@ public enum FluentNumberCurrencyDisplayStyle: String, RawRepresentable, Equatabl
 }
 
 public struct FluentNumberOptions: Equatable {
-    public let style: FluentNumberStyle
-    public let currency: String?
-    public let currencyDisplay: FluentNumberCurrencyDisplayStyle
-    public let useGrouping: Bool
-    public let minimumIntegerDigits: Int?
-    public let minimumFractionDigits: Int?
-    public let maximumFractionDigits: Int?
-    public let minimumSignificantDigits: Int?
-    public let maximumSignificantDigits: Int?
+    public private(set) var style: FluentNumberStyle
+    public private(set) var currency: String?
+    public private(set) var currencyDisplay: FluentNumberCurrencyDisplayStyle
+    public private(set) var useGrouping: Bool
+    public private(set) var minimumIntegerDigits: Int?
+    public private(set) var minimumFractionDigits: Int?
+    public private(set) var maximumFractionDigits: Int?
+    public private(set) var minimumSignificantDigits: Int?
+    public private(set) var maximumSignificantDigits: Int?
     
     init() {
         style = .init()
@@ -99,12 +99,26 @@ public struct FluentNumberOptions: Equatable {
         self.maximumSignificantDigits = maximumSignificantDigits
     }
     
-    public func merge(opts: FluentArgs) {
+    public mutating func merge(opts: FluentArgs) {
         for (key, value) in opts {
             switch (key, value) {
-            // FIXME: Add implementation after FluentValue
+            case ("style", .string(let n)):
+                self.style = FluentNumberStyle(rawValue: n)!
+            case ("currency", .string(let n)):
+                self.currency = n
+            case ("currencyDisplay", .string(let n)):
+                self.currencyDisplay = FluentNumberCurrencyDisplayStyle(rawValue: n)!
+            case ("minimumIntegerDigits", .number(let n)):
+                self.minimumIntegerDigits = Int(n)
+            case ("minimumFractionDigits", .number(let n)):
+                self.minimumFractionDigits = Int(n)
+            case ("maximumFractionDigits", .number(let n)):
+                self.maximumFractionDigits = Int(n)
+            case ("minimumSignificantDigits", .number(let n)):
+                self.minimumSignificantDigits = Int(n)
+            case ("maximumSignificantDigits", .number(let n)):
+                self.maximumSignificantDigits = Int(n)
             default:
-                fatalError()
                 break
             }
         }
@@ -151,5 +165,11 @@ public struct FluentNumber: Equatable, CustomStringConvertible {
 extension FluentValue {
     init(input: FluentNumber) {
         self = .number(input)
+    }
+}
+
+extension Int {
+    init(_ n: FluentNumber) {
+        self = Int(n.value)
     }
 }
