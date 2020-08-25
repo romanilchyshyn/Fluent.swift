@@ -9,9 +9,9 @@
 import FluentSyntax
 
 public enum FluentError: Error {
-    case Overriding(kind: String, id: String)
-    case ParserError(ParserError)
-    case ResolverError // (ResolverError) FIXME: Use ResolverError
+    case overriding(kind: String, id: String)
+    case parserError(ParserError)
+    case resolverError(ResolverError)
 }
 
 extension Array: Error where Element == FluentError {}

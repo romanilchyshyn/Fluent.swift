@@ -11,10 +11,10 @@ import FluentSyntax
 let maxPlaceables = 100
 
 public enum ResolverError {
-    case Reference(String)
-    case MissingDefault
-    case Cyclic
-    case TooManyPlaceables
+    case reference(String)
+    case missingDefault
+    case cyclic
+    case tooManyPlaceables
 }
 
 public final class Scope<M> {
@@ -43,7 +43,7 @@ public final class Scope<M> {
         self.dirty = false
     }
     
-    public func maybe_track(pattern: Pattern, placeable: Expression) -> FluentValue {
+    public func maybeTrack(pattern: Pattern, placeable: Expression) -> FluentValue {
         if travelled.isEmpty {
             travelled.append(pattern)
         }
@@ -56,7 +56,7 @@ public final class Scope<M> {
     
     public func track(pattern: Pattern, entry: DisplayableNode) -> FluentValue {
         if travelled.contains(pattern) {
-            errors.append(.Cyclic)
+            errors.append(.cyclic)
             return .error(entry)
         } else {
             travelled.append(pattern)
@@ -71,8 +71,8 @@ public protocol ResolveValue {
     func resolve<M>(scope: Scope<M>) -> FluentValue
 }
 
-func generate_ref_error<M>(scope: Scope<M>, node: DisplayableNode) -> FluentValue {
-    scope.errors.append(.Reference(node.getError()))
+func generateRefError<M>(scope: Scope<M>, node: DisplayableNode) -> FluentValue {
+    scope.errors.append(.reference(node.getError()))
     return .error(node)
 }
 
@@ -89,7 +89,7 @@ extension Pattern: ResolveValue {
                     .map { t in .string(t(s)) }
                     ?? .string(s)
             case .placeable(let p):
-                return scope.maybe_track(pattern: self, placeable: p)
+                return scope.maybeTrack(pattern: self, placeable: p)
             }
         }
         
@@ -108,7 +108,7 @@ extension Pattern: ResolveValue {
                 scope.placeables += 1
                 if scope.placeables > maxPlaceables {
                     scope.dirty = true
-                    scope.errors.append(.TooManyPlaceables)
+                    scope.errors.append(.tooManyPlaceables)
                     return .none
                 }
                 
@@ -122,15 +122,15 @@ extension Pattern: ResolveValue {
                     needsIsolationPlaceble = true
                 }
                 
-                let needs_isolation = scope.bundle.useIsolating && needsIsolationPlaceble
-                if needs_isolation {
+                let needsIsolation = scope.bundle.useIsolating && needsIsolationPlaceble
+                if needsIsolation {
                     string.append("\u{2068}")
                 }
                 
-                let result = scope.maybe_track(pattern: self, placeable: p)
+                let result = scope.maybeTrack(pattern: self, placeable: p)
                 string.append(result.as_string())
                 
-                if needs_isolation {
+                if needsIsolation {
                     string.append("\u{2069}")
                 }
             }
@@ -173,7 +173,7 @@ extension Expression: ResolveValue {
                 }
             }
             
-            scope.errors.append(.MissingDefault)
+            scope.errors.append(.missingDefault)
             
             return .none
         }
@@ -190,12 +190,12 @@ extension InlineExpression: ResolveValue {
             return FluentValue(tryNumber: value)
         
         case .functionReference(let id, let arguments):
-            let (resolved_positional_args, resolved_named_args) = get_arguments(scope: scope, arguments: arguments)
+            let (resolvedPositionalArgs, resolvedNamedArgs) = getArguments(scope: scope, arguments: arguments)
             let fn = scope.bundle.getEntryFunction(id: id.name)
             if let fn = fn {
-                return fn(resolved_positional_args, resolved_named_args)
+                return fn(resolvedPositionalArgs, resolvedNamedArgs)
             } else {
-                return generate_ref_error(scope: scope, node: .init(expr: self))
+                return generateRefError(scope: scope, node: .init(expr: self))
             }
         
         case .messageReference(let id, let attribute):
@@ -212,11 +212,11 @@ extension InlineExpression: ResolveValue {
                             .map { value in scope.track(pattern: value, entry: .init(expr: self)) }
                     }
                 }
-                ?? generate_ref_error(scope: scope, node: .init(expr: self))
+                ?? generateRefError(scope: scope, node: .init(expr: self))
             
         case .termReference(let id, let attribute, let arguments):
-            let (_, resolved_named_args) = get_arguments(scope: scope, arguments: arguments)
-            scope.localArgs = resolved_named_args
+            let (_, resolvedNamedArgs) = getArguments(scope: scope, arguments: arguments)
+            scope.localArgs = resolvedNamedArgs
             
             let value: FluentValue = scope
                 .bundle
@@ -231,7 +231,7 @@ extension InlineExpression: ResolveValue {
                         return scope.track(pattern: term.value, entry: .init(expr: self))
                     }
                 }
-            ?? generate_ref_error(scope: scope, node: .init(expr: self))
+            ?? generateRefError(scope: scope, node: .init(expr: self))
             
             scope.localArgs = nil
             
@@ -246,7 +246,7 @@ extension InlineExpression: ResolveValue {
                 if scope.localArgs == nil {
                     scope
                         .errors
-                        .append(.Reference(entry.getError()))
+                        .append(.reference(entry.getError()))
                 }
                 return .error(entry)
             }
@@ -257,18 +257,18 @@ extension InlineExpression: ResolveValue {
     }
 }
 
-func get_arguments<M>(scope: Scope<M>, arguments: CallArguments?) -> ([FluentValue], FluentArgs) {
-    var resolved_positional_args: [FluentValue] = []
-    var resolved_named_args = FluentArgs()
+func getArguments<M>(scope: Scope<M>, arguments: CallArguments?) -> ([FluentValue], FluentArgs) {
+    var resolvedPositionalArgs: [FluentValue] = []
+    var resolvedNamedArgs = FluentArgs()
 
     if let arguments = arguments {
         for expression in arguments.positional {
-            resolved_positional_args.append(expression.resolve(scope: scope))
+            resolvedPositionalArgs.append(expression.resolve(scope: scope))
         }
         for arg in arguments.named {
-            resolved_named_args[arg.name.name] = arg.value.resolve(scope: scope)
+            resolvedNamedArgs[arg.name.name] = arg.value.resolve(scope: scope)
         }
     }
 
-    return (resolved_positional_args, resolved_named_args)
+    return (resolvedPositionalArgs, resolvedNamedArgs)
 }

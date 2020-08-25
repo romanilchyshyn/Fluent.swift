@@ -58,7 +58,7 @@ public final class FluentBundleBase<M> {
             if entries[id] == nil {
                entries[id] = entry
             } else {
-                errors.append(.Overriding(kind: kind, id: id))
+                errors.append(.overriding(kind: kind, id: id))
             }
         }
         
@@ -119,7 +119,7 @@ public final class FluentBundleBase<M> {
             entries[id] = .function(function)
             return .success(())
         } else {
-            return .failure(.Overriding(kind: "function", id: id))
+            return .failure(.overriding(kind: "function", id: id))
         }
     }
     
