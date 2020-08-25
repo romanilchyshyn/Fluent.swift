@@ -29,6 +29,7 @@
 		A6E5322A24F16D5D00A9F509 /* FluentResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322924F16D5D00A9F509 /* FluentResource.swift */; };
 		A6E5322C24F29E5E00A9F509 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322B24F29E5E00A9F509 /* Entry.swift */; };
 		A6E5322E24F3C24A00A9F509 /* Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322D24F3C24A00A9F509 /* Number.swift */; };
+		A6E5323024F4289700A9F509 /* Resolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E5322F24F4289700A9F509 /* Resolve.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		A6E5322924F16D5D00A9F509 /* FluentResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentResource.swift; sourceTree = "<group>"; };
 		A6E5322B24F29E5E00A9F509 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		A6E5322D24F3C24A00A9F509 /* Number.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Number.swift; sourceTree = "<group>"; };
+		A6E5322F24F4289700A9F509 /* Resolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolve.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 				A6E5322724F16B4000A9F509 /* Errors.swift */,
 				A6E5322B24F29E5E00A9F509 /* Entry.swift */,
 				A6E5322924F16D5D00A9F509 /* FluentResource.swift */,
+				A6E5322F24F4289700A9F509 /* Resolve.swift */,
 				A64F394C24F11067002575EB /* Info.plist */,
 			);
 			path = FluentBundle;
@@ -445,6 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6E5322C24F29E5E00A9F509 /* Entry.swift in Sources */,
+				A6E5323024F4289700A9F509 /* Resolve.swift in Sources */,
 				A6E5322324F1127E00A9F509 /* FluentBundle.swift in Sources */,
 				A6E5322E24F3C24A00A9F509 /* Number.swift in Sources */,
 				A6E5322A24F16D5D00A9F509 /* FluentResource.swift in Sources */,

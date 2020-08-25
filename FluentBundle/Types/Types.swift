@@ -103,7 +103,7 @@ public enum FluentValue: Equatable {
     case error(DisplayableNode)
     case none
     
-    func as_string(/*scope: Scope*/) {
+    func as_string(/*scope: Scope*/) -> String {
         // FIXME: Need implement Scope first
         fatalError()
     }

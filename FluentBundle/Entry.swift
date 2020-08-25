@@ -8,7 +8,7 @@
 
 import FluentSyntax
 
-public typealias FluentFunction = (FluentValue, FluentArgs) -> FluentValue // FIXME: FluentValue argument should be array?
+public typealias FluentFunction = ([FluentValue], FluentArgs) -> FluentValue
 
 public enum Entry {
     case message(Int, Int)

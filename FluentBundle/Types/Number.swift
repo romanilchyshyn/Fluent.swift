@@ -166,6 +166,14 @@ extension FluentValue {
     init(input: FluentNumber) {
         self = .number(input)
     }
+    
+    init(tryNumber input: String) {
+        if let number = FluentNumber(input: input) {
+            self = .number(number)
+        } else {
+            self = .string(input)
+        }
+    }
 }
 
 extension Int {
