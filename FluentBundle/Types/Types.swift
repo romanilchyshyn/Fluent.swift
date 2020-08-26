@@ -103,8 +103,21 @@ public enum FluentValue: Equatable {
     case error(DisplayableNode)
     case none
     
-    func as_string(/*scope: Scope*/) -> String {
-        // FIXME: Need implement Scope first
-        fatalError()
+    func as_string<M>(scope: Scope<M>) -> String {
+        if let formatter = scope.bundle.formatter,
+            let val = formatter(self) {
+            return val
+        }
+        
+        switch self {
+        case .string(let s):
+            return s
+        case .number(let n):
+            return "\(n)"
+        case .error(let d):
+            return "{{\(d)}}"
+        case .none:
+            return "???"
+        }
     }
 }

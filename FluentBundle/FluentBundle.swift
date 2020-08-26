@@ -22,7 +22,7 @@ public final class FluentBundleBase<M> {
     public let intls: M? // FIXME: Remove optional
     public var useIsolating: Bool
     public var transform: ((String) -> String)?
-    public var formatter: ((FluentValue, M) -> String?)?
+    public var formatter: ((FluentValue) -> String?)?
     
     public init(locales: [Locale]) {
         self.locales = locales
@@ -111,7 +111,9 @@ public final class FluentBundleBase<M> {
     }
     
     public func formatPattern(pattern: Pattern, args: FluentArgs?) -> (result: String, errors: [FluentError]) {
-        fatalError() // FIXME: Add implementation after Scope
+        let scope = Scope(bundle: self, args: args)
+        let result = pattern.resolve(scope: scope).as_string(scope: scope)
+        return (result, scope.errors.map { .resolverError($0) })
     }
     
     public func addFunction(id: String, function: @escaping FluentFunction) -> Result<Void, FluentError> {

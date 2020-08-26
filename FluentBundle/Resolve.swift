@@ -128,7 +128,7 @@ extension Pattern: ResolveValue {
                 }
                 
                 let result = scope.maybeTrack(pattern: self, placeable: p)
-                string.append(result.as_string())
+                string.append(result.as_string(scope: scope))
                 
                 if needsIsolation {
                     string.append("\u{2069}")
