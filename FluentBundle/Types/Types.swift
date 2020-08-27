@@ -72,8 +72,21 @@ public struct DisplayableNode: Equatable {
     }
 }
 
-public protocol FluentType: Equatable {
-    func as_string(/*intls: IntlLangMemoizer*/) -> String
+public protocol FluentType: AnyEquatable {
+    func as_string() -> String
+}
+
+public protocol AnyEquatable: Any {
+    func eq(_ rhs: Any) -> Bool
+}
+extension AnyEquatable where Self: Equatable {
+    public func eq(_ rhs: Any) -> Bool {
+        if let r = rhs as? Self {
+            return self == r
+        } else {
+            return false
+        }
+    }
 }
 
 extension String.StringInterpolation {
@@ -97,9 +110,10 @@ extension String.StringInterpolation {
 }
 
 public enum FluentValue: Equatable {
+
     case string(String)
     case number(FluentNumber)
-//    case custom(FluentType) // FIXME: Need implement custom support
+    case custom(FluentType)
     case error(DisplayableNode)
     case none
     
@@ -118,6 +132,21 @@ public enum FluentValue: Equatable {
             return "{{\(d)}}"
         case .none:
             return "???"
+        case .custom(let c):
+            return c.as_string()
+        }
+    }
+    
+    public static func == (lhs: FluentValue, rhs: FluentValue) -> Bool {
+        switch (lhs, rhs) {
+        case (.string(let l), .string(let r)):
+            return l == r
+        case (.number(let l), .number(let r)):
+            return l == r
+        case (.custom(let l), .custom(let r)):
+            return l.eq(r)
+        default:
+            return false
         }
     }
 }
