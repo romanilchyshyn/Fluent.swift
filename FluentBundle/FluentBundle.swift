@@ -15,11 +15,11 @@ public struct FluentMessage: Equatable {
 
 public typealias FluentArgs = [String: FluentValue]
 
-public final class FluentBundleBase<M> {
+public final class FluentBundle {
     public let locales: [Locale]
     public private(set) var resources: [FluentResource]
     public private(set) var entries: [String: Entry]
-    public let intls: M? // FIXME: Remove optional
+    public let intls = [String: String]() // FIXME: Use real type
     public var useIsolating: Bool
     public var transform: ((String) -> String)?
     public var formatter: ((FluentValue) -> String?)?
@@ -28,7 +28,6 @@ public final class FluentBundleBase<M> {
         self.locales = locales
         self.resources = []
         self.entries = [:]
-        self.intls = nil // FIXME: Shoul be something like: `M(locales[0])`
         self.useIsolating = true
     }
     
@@ -127,7 +126,7 @@ public final class FluentBundleBase<M> {
     
 }
 
-extension FluentBundleBase: GetEntry {
+extension FluentBundle: GetEntry {
     public func getEntryMessage(id: String) -> Message? {
         guard let  entry = entries[id] else { return nil }
         switch entry {

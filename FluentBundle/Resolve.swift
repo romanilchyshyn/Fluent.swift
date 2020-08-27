@@ -17,8 +17,8 @@ public enum ResolverError {
     case tooManyPlaceables
 }
 
-public final class Scope<M> {
-    public let bundle: FluentBundleBase<M>
+public final class Scope {
+    public let bundle: FluentBundle
     /// The current arguments passed by the developer.
     public let args: FluentArgs?
     /// Local args
@@ -33,7 +33,7 @@ public final class Scope<M> {
     /// Makes the resolver bail.
     public fileprivate(set) var dirty: Bool
     
-    public init(bundle: FluentBundleBase<M>, args: FluentArgs?) {
+    public init(bundle: FluentBundle, args: FluentArgs?) {
         self.bundle = bundle
         self.args = args
         self.localArgs = nil
@@ -68,16 +68,16 @@ public final class Scope<M> {
 }
 
 public protocol ResolveValue {
-    func resolve<M>(scope: Scope<M>) -> FluentValue
+    func resolve(scope: Scope) -> FluentValue
 }
 
-func generateRefError<M>(scope: Scope<M>, node: DisplayableNode) -> FluentValue {
+func generateRefError(scope: Scope, node: DisplayableNode) -> FluentValue {
     scope.errors.append(.reference(node.getError()))
     return .error(node)
 }
 
 extension Pattern: ResolveValue {
-    public func resolve<M>(scope: Scope<M>) -> FluentValue {
+    public func resolve(scope: Scope) -> FluentValue {
         if scope.dirty {
             return .none
         }
@@ -141,7 +141,7 @@ extension Pattern: ResolveValue {
 }
 
 extension Expression: ResolveValue {
-    public func resolve<M>(scope: Scope<M>) -> FluentValue {
+    public func resolve(scope: Scope) -> FluentValue {
         switch self {
         case .inlineExpression(let expression):
             return expression.resolve(scope: scope)
@@ -181,7 +181,7 @@ extension Expression: ResolveValue {
 }
 
 extension InlineExpression: ResolveValue {
-    public func resolve<M>(scope: Scope<M>) -> FluentValue {
+    public func resolve(scope: Scope) -> FluentValue {
         switch self {
         case .stringLiteral(let value):
             return .string(unescapeUnicode(value))
@@ -257,7 +257,7 @@ extension InlineExpression: ResolveValue {
     }
 }
 
-func getArguments<M>(scope: Scope<M>, arguments: CallArguments?) -> ([FluentValue], FluentArgs) {
+func getArguments(scope: Scope, arguments: CallArguments?) -> ([FluentValue], FluentArgs) {
     var resolvedPositionalArgs: [FluentValue] = []
     var resolvedNamedArgs = FluentArgs()
 

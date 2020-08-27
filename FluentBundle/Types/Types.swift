@@ -103,7 +103,7 @@ public enum FluentValue: Equatable {
     case error(DisplayableNode)
     case none
     
-    func as_string<M>(scope: Scope<M>) -> String {
+    func as_string(scope: Scope) -> String {
         if let formatter = scope.bundle.formatter,
             let val = formatter(self) {
             return val
