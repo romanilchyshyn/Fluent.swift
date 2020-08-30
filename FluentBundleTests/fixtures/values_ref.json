@@ -1,0 +1,164 @@
+{
+  "suites": [
+    {
+      "name": "Referencing values",
+      "resources": [
+        {
+          "source": "key1 = Value 1\n-key2 = { $sel ->\n    [a] A2\n  *[b] B2\n}\nkey3 = Value { 3 }\n-key4 = { $sel ->\n    [a] A{ 4 }\n  *[b] B{ 4 }\n}\nkey5 =\n    .a = A5\n    .b = B5\nref1 = { key1 }\nref2 = { -key2 }\nref3 = { key3 }\nref4 = { -key4 }\nref5 = { key5 }\nref6 = { -key2(sel: \"a\") }\nref7 = { -key2(sel: \"b\") }\nref8 = { -key4(sel: \"a\") }\nref9 = { -key4(sel: \"b\") }\nref10 = { key5.a }\nref11 = { key5.b }\nref12 = { key5.c }\nref13 = { key6 }\nref14 = { key6.a }\nref15 = { -key6 }\nref16 = { -key6.a ->\n    *[a] A\n}"
+        }
+      ],
+      "tests": [
+        {
+          "name": "references the value",
+          "asserts": [
+            {
+              "id": "ref1",
+              "value": "Value 1"
+            }
+          ]
+        },
+        {
+          "name": "references the default variant",
+          "asserts": [
+            {
+              "id": "ref2",
+              "value": "B2"
+            }
+          ]
+        },
+        {
+          "name": "references the value if it is a pattern",
+          "asserts": [
+            {
+              "id": "ref3",
+              "value": "Value 3"
+            }
+          ]
+        },
+        {
+          "name": "references the default variant if it is a pattern",
+          "asserts": [
+            {
+              "id": "ref4",
+              "value": "B4"
+            }
+          ]
+        },
+        {
+          "name": "falls back to id if there is no value",
+          "asserts": [
+            {
+              "id": "ref5",
+              "value": "{key5}",
+              "errors": [
+                {
+                  "type": "Reference",
+                  "desc": "Unknown message: key5"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "references the variants",
+          "asserts": [
+            {
+              "id": "ref6",
+              "value": "A2"
+            },
+            {
+              "id": "ref7",
+              "value": "B2"
+            }
+          ]
+        },
+        {
+          "name": "references the variants which are patterns",
+          "asserts": [
+            {
+              "id": "ref8",
+              "value": "A4"
+            },
+            {
+              "id": "ref9",
+              "value": "B4"
+            }
+          ]
+        },
+        {
+          "name": "references the attributes",
+          "asserts": [
+            {
+              "id": "ref10",
+              "value": "A5"
+            },
+            {
+              "id": "ref11",
+              "value": "B5"
+            },
+            {
+              "id": "ref12",
+              "value": "{key5.c}",
+              "errors": [
+                {
+                  "type": "Reference",
+                  "desc": "Unknown attribute: key5.c"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "missing message reference",
+          "asserts": [
+            {
+              "id": "ref13",
+              "value": "{key6}",
+              "errors": [
+                {
+                  "type": "Reference",
+                  "desc": "Unknown message: key6"
+                }
+              ]
+            },
+            {
+              "id": "ref14",
+              "value": "{key6.a}",
+              "errors": [
+                {
+                  "type": "Reference",
+                  "desc": "Unknown attribute: key6.a"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "missing term reference",
+          "asserts": [
+            {
+              "id": "ref15",
+              "value": "{-key6}",
+              "errors": [
+                {
+                  "type": "Reference",
+                  "desc": "Unknown term: -key6"
+                }
+              ]
+            },
+            {
+              "id": "ref16",
+              "value": "A",
+              "errors": [
+                {
+                  "type": "Reference",
+                  "desc": "Unknown attribute: -key6.a"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A636F31024E51CBE0043ECDC /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A636F30F24E51CBE0043ECDC /* Parser.swift */; };
 		A64F395224F11067002575EB /* FluentBundle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64F394924F11067002575EB /* FluentBundle.framework */; };
-		A64F395724F11067002575EB /* FluentBundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A64F395624F11067002575EB /* FluentBundleTests.swift */; };
 		A64F395924F11067002575EB /* FluentBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = A64F394B24F11067002575EB /* FluentBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6763EEA24E273DA00798213 /* Fluent_swift.h in Headers */ = {isa = PBXBuildFile; fileRef = A6763EE824E273DA00798213 /* Fluent_swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6763EFE24E2744E00798213 /* FluentSyntax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6763EF524E2744E00798213 /* FluentSyntax.framework */; };
@@ -18,6 +17,9 @@
 		A6B634E724EBB7E20040438B /* ParserFixturesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B634E624EBB7E20040438B /* ParserFixturesTests.swift */; };
 		A6B6357624EBC36A0040438B /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = A6B6357524EBC36A0040438B /* fixtures */; };
 		A6B6357B24ED22690040438B /* AST+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B6357A24ED22690040438B /* AST+Encodable.swift */; };
+		A6C34DD724FBE3AC00443AEE /* FixturesInfrastructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C34DD624FBE3AC00443AEE /* FixturesInfrastructure.swift */; };
+		A6C34DDB24FBEFB200443AEE /* TestFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C34DDA24FBEFB200443AEE /* TestFixtures.swift */; };
+		A6C34DDD24FC19C700443AEE /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = A6C34DDC24FC19C700443AEE /* fixtures */; };
 		A6CCAEBA24E2C96C00B68A1F /* Unicode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEB924E2C96C00B68A1F /* Unicode.swift */; };
 		A6CCAEBC24E2C9E400B68A1F /* UnicodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */; };
 		A6E205B224E2CF17000743CB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6763F0424E2744E00798213 /* Info.plist */; };
@@ -55,7 +57,6 @@
 		A64F394B24F11067002575EB /* FluentBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FluentBundle.h; sourceTree = "<group>"; };
 		A64F394C24F11067002575EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A64F395124F11067002575EB /* FluentBundleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentBundleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A64F395624F11067002575EB /* FluentBundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentBundleTests.swift; sourceTree = "<group>"; };
 		A64F395824F11067002575EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6763EE524E273DA00798213 /* Fluent_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fluent_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6763EE824E273DA00798213 /* Fluent_swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fluent_swift.h; sourceTree = "<group>"; };
@@ -69,6 +70,9 @@
 		A6B634E624EBB7E20040438B /* ParserFixturesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserFixturesTests.swift; sourceTree = "<group>"; };
 		A6B6357524EBC36A0040438B /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fixtures; sourceTree = "<group>"; };
 		A6B6357A24ED22690040438B /* AST+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AST+Encodable.swift"; sourceTree = "<group>"; };
+		A6C34DD624FBE3AC00443AEE /* FixturesInfrastructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixturesInfrastructure.swift; sourceTree = "<group>"; };
+		A6C34DDA24FBEFB200443AEE /* TestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFixtures.swift; sourceTree = "<group>"; };
+		A6C34DDC24FC19C700443AEE /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fixtures; sourceTree = "<group>"; };
 		A6CCAEB924E2C96C00B68A1F /* Unicode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unicode.swift; sourceTree = "<group>"; };
 		A6CCAEBB24E2C9E400B68A1F /* UnicodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UnicodeTests.swift; path = FluentSyntaxTests/UnicodeTests.swift; sourceTree = SOURCE_ROOT; };
 		A6E205B424E2D0FF000743CB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -141,7 +145,9 @@
 		A64F395524F11067002575EB /* FluentBundleTests */ = {
 			isa = PBXGroup;
 			children = (
-				A64F395624F11067002575EB /* FluentBundleTests.swift */,
+				A6C34DDC24FC19C700443AEE /* fixtures */,
+				A6C34DD624FBE3AC00443AEE /* FixturesInfrastructure.swift */,
+				A6C34DDA24FBEFB200443AEE /* TestFixtures.swift */,
 				A64F395824F11067002575EB /* Info.plist */,
 			);
 			path = FluentBundleTests;
@@ -414,6 +420,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C34DDD24FC19C700443AEE /* fixtures in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,7 +468,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A64F395724F11067002575EB /* FluentBundleTests.swift in Sources */,
+				A6C34DD724FBE3AC00443AEE /* FixturesInfrastructure.swift in Sources */,
+				A6C34DDB24FBEFB200443AEE /* TestFixtures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

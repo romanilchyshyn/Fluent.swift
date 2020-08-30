@@ -1,0 +1,8 @@
+{
+  "bundle": {
+    "useIsolating": false,
+    "locales": [
+      "en-US"
+    ]
+  }
+}

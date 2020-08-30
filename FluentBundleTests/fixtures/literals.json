@@ -1,0 +1,79 @@
+{
+  "suites": [
+    {
+      "name": "Literals as selectors",
+      "tests": [
+        {
+          "name": "a matching string literal selector",
+          "resources": [
+            {
+              "source": "foo = { \"a\" ->\n    [a] A\n  *[b] B\n}"
+            }
+          ],
+          "asserts": [
+            {
+              "id": "foo",
+              "value": "A"
+            }
+          ]
+        },
+        {
+          "name": "a non-matching string literal selector",
+          "resources": [
+            {
+              "source": "foo = { \"c\" ->\n    [a] A\n  *[b] B\n}"
+            }
+          ],
+          "asserts": [
+            {
+              "id": "foo",
+              "value": "B"
+            }
+          ]
+        },
+        {
+          "name": "a matching number literal selector",
+          "resources": [
+            {
+              "source": "foo = { 0 ->\n    [0] A\n  *[1] B\n}"
+            }
+          ],
+          "asserts": [
+            {
+              "id": "foo",
+              "value": "A"
+            }
+          ]
+        },
+        {
+          "name": "a non-matching number literal selector",
+          "resources": [
+            {
+              "source": "foo = { 2 ->\n    [0] A\n  *[1] B\n}"
+            }
+          ],
+          "asserts": [
+            {
+              "id": "foo",
+              "value": "B"
+            }
+          ]
+        },
+        {
+          "name": "a number literal selector matching a plural category",
+          "resources": [
+            {
+              "source": "foo = { 1 ->\n    [one] A\n  *[other] B\n}"
+            }
+          ],
+          "asserts": [
+            {
+              "id": "foo",
+              "value": "A"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
