@@ -221,7 +221,7 @@ func testErrors(errors: [FluentError], reference: [TestError]?) {
 }
 
 private func generateRandomHash() -> String {
-    fatalError()
+    UUID().uuidString
 }
 
 private func createBundle(b: TestBundle?, defaults: TestDefaults?, resources: [TestResource]) -> FluentBundle {
