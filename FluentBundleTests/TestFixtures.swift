@@ -9,7 +9,7 @@
 import XCTest
 import Foundation
 
-import FluentSyntax
+@testable import FluentSyntax
 @testable import FluentBundle
 
 final class TestFixtures: XCTestCase {
@@ -128,32 +128,6 @@ final class TestFixtures: XCTestCase {
         }
     }
     
-    private static func testErrors(errors: [FluentError], reference: [TestError]?) {
-        guard let reference = reference else { return }
-        XCTAssertEqual(errors.count, reference.count)
-        
-        for (error, reference) in zip(errors, reference) {
-            switch error {
-            case .overriding:
-                XCTAssertEqual(reference.type, "Overriding")
-            case .parserError:
-                XCTAssertEqual(reference.type, "Parser")
-            case .resolverError(let err):
-                switch err {
-                case .reference(let desc):
-                    XCTAssertEqual(reference.desc, desc)
-                    XCTAssertEqual(reference.type, "Reference")
-                case .cyclic:
-                    XCTAssertEqual(reference.type, "Cyclic")
-                case .tooManyPlaceables:
-                    XCTAssertEqual(reference.type, "TooManyPlaceables")
-                default:
-                    fatalError("Unimplemented")
-                }
-            }
-        }
-    }
-    
     // MARK: - Utils
     
     private static func getDefaults(url: URL) throws -> TestDefaults {
@@ -220,10 +194,137 @@ private final class Scope {
     }
 }
 
+func testErrors(errors: [FluentError], reference: [TestError]?) {
+    guard let reference = reference else { return }
+    XCTAssertEqual(errors.count, reference.count)
+    
+    for (error, reference) in zip(errors, reference) {
+        switch error {
+        case .overriding:
+            XCTAssertEqual(reference.type, "Overriding")
+        case .parserError:
+            XCTAssertEqual(reference.type, "Parser")
+        case .resolverError(let err):
+            switch err {
+            case .reference(let desc):
+                XCTAssertEqual(reference.desc, desc)
+                XCTAssertEqual(reference.type, "Reference")
+            case .cyclic:
+                XCTAssertEqual(reference.type, "Cyclic")
+            case .tooManyPlaceables:
+                XCTAssertEqual(reference.type, "TooManyPlaceables")
+            default:
+                fatalError("Unimplemented")
+            }
+        }
+    }
+}
+
 private func generateRandomHash() -> String {
     fatalError()
 }
 
-func createBundle(b: TestBundle?, defaults: TestDefaults?, resources: [TestResource]) -> FluentBundle {
-    fatalError()
+private func createBundle(b: TestBundle?, defaults: TestDefaults?, resources: [TestResource]) -> FluentBundle {
+    var errors = [FluentError]()
+    
+    let locales = (b?.locales ?? defaults?.bundle.locales)!
+        .compactMap { Locale(identifier: $0) }
+    
+    let bundle = FluentBundle(locales: locales)
+    
+    let useIsolating = b?.useIsolating ?? defaults?.bundle.useIsolating
+    if let use_isolating = useIsolating {
+        bundle.useIsolating = use_isolating
+    }
+    
+    let transform = b?.transform ?? defaults?.bundle.transform
+    if let transform = transform {
+        switch transform {
+        case "example":
+            bundle.transform = { $0.replacingOccurrences(of: "a", with: "A") }
+        default:
+            fatalError()
+        }
+    }
+    
+    for f in b?.functions ?? [] {
+        let result: Result<Void, FluentError>
+        switch f {
+        case "CONCAT":
+            result = bundle.addFunction(id: f) { (args, _) -> FluentValue in
+                let reduced = args.reduce("") { (acc, x) in
+                    switch x {
+                    case .string(let s): return acc + s
+                    case .number(let n): return acc + "\(n)"
+                    default: return acc
+                    }
+                }
+                return .string(reduced)
+            }
+        case "SUM":
+            result = bundle.addFunction(id: f) { (args, _) -> FluentValue in
+                let reduced = args.reduce(0.0) { (acc, x) in
+                    if case .number(let n) = x {
+                        return acc + n.value
+                    } else {
+                        fatalError("Type cannot be used in SUM")
+                    }
+                }
+                return .number(.init(value: reduced, options: .init()))
+            }
+
+        case "IDENTITY":
+            result = bundle.addFunction(id: f) { (args, _) -> FluentValue in args.first ?? .none }
+            
+        case "NUMBER":
+            result = bundle.addFunction(id: f) { (args, _) -> FluentValue in args.first! }
+            
+        default:
+            fatalError("No such function.")
+        }
+        
+        if case .failure(let err) = result {
+            errors.append(err)
+        }
+    }
+    
+    for res in resources {
+        if
+            let res_subset = b?.resources,
+            let name = res.name {
+            if !res_subset.contains(name) {
+                continue
+            }
+        }
+        
+        let res = get_resource(resource: res)
+        if case .failure(let err) = bundle.addResource(res) {
+            errors.append(contentsOf: err)
+        }
+    }
+    
+    testErrors(errors: errors, reference: b?.errors ?? [])
+    
+    return bundle
+}
+
+private func get_resource(resource: TestResource) -> FluentResource {
+    let res = FluentResource.create(source: resource.source)
+
+    if resource.errors?.isEmpty == true {
+        switch res {
+        case .success(let r):
+            return r
+        case .failure:
+            fatalError("Failed to parse an FTL resource.")
+        }
+    } else {
+        switch res {
+        case .success(let r):
+            return r
+        case .failure(let err):
+            testErrors(errors: err.errors.map { .parserError($0) }, reference: resource.errors)
+            return err.resource
+        }
+    }
 }

@@ -13,15 +13,32 @@ public final class FluentResource {
     public let string: String
     public let ast: Resource
     
-    init(source: String) throws {
-        let r = parse(source: source)
-        switch r {
-        case .success(let resource):
-            string = source
-            ast = resource
-        case .failure(let err):
-            throw err
-        }
+    public init(string: String, ast: Resource) {
+        self.string = string
+        self.ast = ast
     }
     
+    static func create(source: String) -> Result<FluentResource, FluentResourceCreateError> {
+        let result: Result<FluentResource, FluentResourceCreateError>
+        
+        let parseResult = parse(source: source)
+        switch parseResult {
+        case .success(let resource):
+            result = .success(.init(string: source, ast: resource))
+        case .failure(let err):
+            result = .failure(
+                .init(resource: .init(string: source, ast: err.resource),
+                errors: err.errors
+                )
+            )
+        }
+        
+        return result
+    }
+    
+}
+
+public struct FluentResourceCreateError: Error {
+    let resource: FluentResource
+    let errors: [ParserError]
 }
