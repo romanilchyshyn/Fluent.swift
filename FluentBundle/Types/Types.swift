@@ -129,7 +129,7 @@ public enum FluentValue: Equatable {
         case .number(let n):
             return "\(n)"
         case .error(let d):
-            return "{{\(d)}}"
+            return "{\(d)}"
         case .none:
             return "???"
         case .custom(let c):
