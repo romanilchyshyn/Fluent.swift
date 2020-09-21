@@ -24,17 +24,14 @@ final class TestFixtures: XCTestCase {
             if url.pathComponents.contains("defaults.json") {
                 continue
             }
-                
-            print("++++ \(url.path)")
             let fixture = try! Self.getFixture(url: url)
-            
             Self.testFixture(fixture: fixture, defaults: defaults)
         }
     }
     
     private static func testFixture(fixture: TestFixture, defaults: TestDefaults) {
         for suite in fixture.suites {
-            testSuite(suite: suite, defaults: defaults, scope: .init(levels: []))
+            testSuite(suite: suite, defaults: defaults, scope: Scope(levels: []))
         }
     }
     
@@ -43,14 +40,15 @@ final class TestFixtures: XCTestCase {
             return
         }
 
-        scope.levels.append(.init(name: suite.name, resources: suite.resources ?? [], bundles: suite.bundles ?? []))
+        var localScope = scope
+        localScope.levels.append(.init(name: suite.name, resources: suite.resources ?? [], bundles: suite.bundles ?? []))
 
         for test in suite.tests ?? [] {
-            testTest(test: test, defaults: defaults, scope: scope)
+            testTest(test: test, defaults: defaults, scope: localScope)
         }
 
         for sub_suite in suite.suites ?? [] {
-            testSuite(suite: sub_suite, defaults: defaults, scope: scope)
+            testSuite(suite: sub_suite, defaults: defaults, scope: localScope)
         }
     }
     
@@ -59,10 +57,11 @@ final class TestFixtures: XCTestCase {
             return
         }
 
-        scope.levels.append(.init(name: test.name, resources: test.resources ?? [], bundles: test.bundles ?? []))
+        var localScope = scope
+        localScope.levels.append(.init(name: test.name, resources: test.resources ?? [], bundles: test.bundles ?? []))
         
         for assert in test.asserts {
-            let bundles = scope.getBundles(defaults: defaults)
+            let bundles = localScope.getBundles(defaults: defaults)
             
             let bundle: FluentBundle
             if let bundle_name = assert.bundle {
@@ -154,7 +153,7 @@ private final class ScopeLevel {
     }
 }
 
-private final class Scope {
+private struct Scope {
     var levels: [ScopeLevel]
     
     init(levels: [ScopeLevel]) {
