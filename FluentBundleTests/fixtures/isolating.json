@@ -1,0 +1,142 @@
+{
+  "suites": [
+    {
+      "name": "Isolating interpolations",
+      "resources": [
+        {
+          "source": "foo = Foo\nbar = { foo } Bar\nbaz = { $arg } Baz\nqux = { bar } { baz }"
+        }
+      ],
+      "bundles": [
+        {
+          "useIsolating": true
+        }
+      ],
+      "tests": [
+        {
+          "name": "isolates interpolated message references",
+          "skip": true,
+          "asserts": [
+            {
+              "id": "bar",
+              "value": "⁨Foo⁩ Bar"
+            }
+          ]
+        },
+        {
+          "name": "isolates interpolated string-typed variables",
+          "asserts": [
+            {
+              "id": "baz",
+              "args": {
+                "arg": "Arg"
+              },
+              "value": "⁨Arg⁩ Baz"
+            }
+          ]
+        },
+        {
+          "name": "isolates interpolated number-typed variables",
+          "asserts": [
+            {
+              "id": "baz",
+              "args": {
+                "arg": 1
+              },
+              "value": "⁨1⁩ Baz"
+            }
+          ]
+        },
+        {
+          "name": "isolates interpolated date-typed variables",
+          "skip": true,
+          "asserts": [
+            {
+              "id": "baz",
+              "args": {
+                "arg": "1976-07-31T00:00:00.000Z"
+              },
+              "value": "⁨1976-07-31⁩ Baz"
+            }
+          ]
+        },
+        {
+          "name": "isolates complex interpolations",
+          "skip": true,
+          "asserts": [
+            {
+              "id": "qux",
+              "args": {
+                "arg": "Arg"
+              },
+              "value": "⁨⁨Foo⁩ Bar⁩ ⁨⁨Arg⁩ Baz⁩"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Skip isolation cases",
+      "resources": [
+        {
+          "source": "-brand-short-name = Amaya\nfoo = { -brand-short-name }"
+        }
+      ],
+      "bundles": [
+        {
+          "useIsolating": true
+        }
+      ],
+      "tests": [
+        {
+          "name": "skips isolation if the only element is a placeable",
+          "asserts": [
+            {
+              "id": "foo",
+              "value": "Amaya"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "(Rust) Skip isolation of string literals and terms",
+      "resources": [
+        {
+          "source": "rs-bar = Foo { $foo } { \"Bar\" } baz\n-rs-term = My Term\nrs-baz = Foo { $foo } { -rs-term } baz"
+        }
+      ],
+      "bundles": [
+        {
+          "useIsolating": true
+        }
+      ],
+      "tests": [
+        {
+          "name": "skip isolation of string literals",
+          "asserts": [
+            {
+              "id": "rs-bar",
+              "args": {
+                "foo": "Test"
+              },
+              "value": "Foo ⁨Test⁩ Bar baz"
+            }
+          ]
+        },
+        {
+          "name": "skip isolation of term references",
+          "asserts": [
+            {
+              "id": "rs-baz",
+              "args": {
+                "foo": "Test"
+              },
+              "value": "Foo ⁨Test⁩ My Term baz"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

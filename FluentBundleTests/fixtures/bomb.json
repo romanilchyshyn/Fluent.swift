@@ -1,0 +1,33 @@
+{
+  "suites": [
+    {
+      "name": "Reference bombs",
+      "suites": [
+        {
+          "name": "Billion Laughs",
+          "resources": [
+            {
+              "source": "lol0 = LOL\nlol1 = {lol0} {lol0} {lol0} {lol0} {lol0} {lol0} {lol0} {lol0} {lol0} {lol0}\nlol2 = {lol1} {lol1} {lol1} {lol1} {lol1} {lol1} {lol1} {lol1} {lol1} {lol1}\nlol3 = {lol2} {lol2} {lol2} {lol2} {lol2} {lol2} {lol2} {lol2} {lol2} {lol2}\nlol4 = {lol3} {lol3} {lol3} {lol3} {lol3} {lol3} {lol3} {lol3} {lol3} {lol3}\nlol5 = {lol4} {lol4} {lol4} {lol4} {lol4} {lol4} {lol4} {lol4} {lol4} {lol4}\nlol6 = {lol5} {lol5} {lol5} {lol5} {lol5} {lol5} {lol5} {lol5} {lol5} {lol5}\nlol7 = {lol6} {lol6} {lol6} {lol6} {lol6} {lol6} {lol6} {lol6} {lol6} {lol6}\nlol8 = {lol7} {lol7} {lol7} {lol7} {lol7} {lol7} {lol7} {lol7} {lol7} {lol7}\nlol9 = {lol8} {lol8} {lol8} {lol8} {lol8} {lol8} {lol8} {lol8} {lol8} {lol8}\nlolz = {lol9}"
+            }
+          ],
+          "tests": [
+            {
+              "name": "does not expand all placeables",
+              "asserts": [
+                {
+                  "id": "lolz",
+                  "value": "{lol9}",
+                  "errors": [
+                    {
+                      "type": "TooManyPlaceables"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

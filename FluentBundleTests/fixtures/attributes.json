@@ -1,0 +1,223 @@
+{
+  "suites": [
+    {
+      "name": "Attributes",
+      "suites": [
+        {
+          "name": "missing",
+          "resources": [
+            {
+              "source": "foo = Foo\nbar = Bar\n    .attr = Bar Attribute\nbaz = { foo } Baz\nqux = { foo } Qux\n    .attr = Qux Attribute\nref-foo = { foo.missing }\nref-bar = { bar.missing }\nref-baz = { baz.missing }\nref-qux = { qux.missing }"
+            }
+          ],
+          "tests": [
+            {
+              "name": "falls back to id.attr for entities with string values and no attributes",
+              "asserts": [
+                {
+                  "id": "ref-foo",
+                  "value": "{foo.missing}",
+                  "errors": [
+                    {
+                      "type": "Reference",
+                      "desc": "Unknown attribute: foo.missing"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "falls back to id.attr for entities with string values and other attributes",
+              "asserts": [
+                {
+                  "id": "ref-bar",
+                  "value": "{bar.missing}",
+                  "errors": [
+                    {
+                      "type": "Reference",
+                      "desc": "Unknown attribute: bar.missing"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "falls back to id.attr for entities with pattern values and no attributes",
+              "asserts": [
+                {
+                  "id": "ref-baz",
+                  "value": "{baz.missing}",
+                  "errors": [
+                    {
+                      "type": "Reference",
+                      "desc": "Unknown attribute: baz.missing"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "falls back to id.attr for entities with pattern values and other attributes",
+              "asserts": [
+                {
+                  "id": "ref-qux",
+                  "value": "{qux.missing}",
+                  "errors": [
+                    {
+                      "type": "Reference",
+                      "desc": "Unknown attribute: qux.missing"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "with string values",
+          "resources": [
+            {
+              "source": "foo = Foo\n    .attr = Foo Attribute\nbar = { foo } Bar\n    .attr = Bar Attribute\nref-foo = { foo.attr }\nref-bar = { bar.attr }"
+            }
+          ],
+          "tests": [
+            {
+              "name": "can be referenced for entities with string values",
+              "asserts": [
+                {
+                  "id": "ref-foo",
+                  "value": "Foo Attribute"
+                }
+              ]
+            },
+            {
+              "name": "can be formatted directly for entities with string values",
+              "asserts": [
+                {
+                  "id": "foo",
+                  "attribute": "attr",
+                  "value": "Foo Attribute"
+                }
+              ]
+            },
+            {
+              "name": "can be referenced for entities with pattern values",
+              "asserts": [
+                {
+                  "id": "ref-bar",
+                  "value": "Bar Attribute"
+                }
+              ]
+            },
+            {
+              "name": "can be formatted directly for entities with pattern values",
+              "asserts": [
+                {
+                  "id": "bar",
+                  "attribute": "attr",
+                  "value": "Bar Attribute"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "with simple pattern values",
+          "resources": [
+            {
+              "source": "foo = Foo\nbar = Bar\n    .attr = { foo } Attribute\nbaz = { foo } Baz\n    .attr = { foo } Attribute\nqux = Qux\n    .attr = { qux } Attribute\nref-bar = { bar.attr }\nref-baz = { baz.attr }\nref-qux = { qux.attr }"
+            }
+          ],
+          "tests": [
+            {
+              "name": "can be referenced for entities with string values",
+              "asserts": [
+                {
+                  "id": "ref-bar",
+                  "value": "Foo Attribute"
+                }
+              ]
+            },
+            {
+              "name": "can be formatted directly for entities with string values",
+              "asserts": [
+                {
+                  "id": "bar",
+                  "attribute": "attr",
+                  "value": "Foo Attribute"
+                }
+              ]
+            },
+            {
+              "name": "can be referenced for entities with simple pattern values",
+              "asserts": [
+                {
+                  "id": "ref-baz",
+                  "value": "Foo Attribute"
+                }
+              ]
+            },
+            {
+              "name": "can be formatted directly for entities with simple pattern values",
+              "asserts": [
+                {
+                  "id": "baz",
+                  "attribute": "attr",
+                  "value": "Foo Attribute"
+                }
+              ]
+            },
+            {
+              "name": "works with self-references",
+              "asserts": [
+                {
+                  "id": "ref-qux",
+                  "value": "Qux Attribute"
+                }
+              ]
+            },
+            {
+              "name": "can be formatted directly when it uses a self-reference",
+              "asserts": [
+                {
+                  "id": "qux",
+                  "attribute": "attr",
+                  "value": "Qux Attribute"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "with values with select expressions",
+          "resources": [
+            {
+              "source": "foo = Foo\n    .attr = { \"a\" ->\n                [a] A\n               *[b] B\n            }\nref-foo = { foo.attr }"
+            }
+          ],
+          "tests": [
+            {
+              "name": "can be referenced",
+              "asserts": [
+                {
+                  "id": "ref-foo",
+                  "value": "A"
+                }
+              ]
+            },
+            {
+              "name": "can be formatted directly",
+              "asserts": [
+                {
+                  "id": "foo",
+                  "attribute": "attr",
+                  "value": "A"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
