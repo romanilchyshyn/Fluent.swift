@@ -149,7 +149,8 @@ public struct FluentNumber: Equatable, CustomStringConvertible {
     }
     
     public var description: String {
-        let val = "\(value)"
+        let isWholeNumber = Double(Int(value)) == value // FIXME: Quick & dirty
+        let val = isWholeNumber ? Int(value).description : value.description
         guard let minfd = options.minimumFractionDigits else { return val }
         
         if let pos = val.firstIndex(of: ".")?.utf16Offset(in: val) {
