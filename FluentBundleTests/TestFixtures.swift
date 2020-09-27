@@ -115,7 +115,7 @@ final class TestFixtures: XCTestCase {
                     
                     let (value, errors) = bundle.formatPattern(pattern: val, args: args)
                     
-                     XCTAssertEqual(value, expected_value, "Values don't match in \(scope.getPath())")
+                    XCTAssertEqual(value, expected_value, "Values don't match in \(scope.getPath())")
                     
                     testErrors(errors: errors, reference: assert.errors)
                     
